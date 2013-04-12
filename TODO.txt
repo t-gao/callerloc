@@ -1,0 +1,1 @@
+1. local database storage of loc info

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/transparent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/caller_number"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/transparent"
+        android:layout_marginTop="5dp"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_horizontal|bottom"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/caller_loc"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/transparent"
+        android:layout_gravity="center_vertical"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textStyle="italic|bold"
+        android:textSize="18sp"
+        android:text="@string/unknown_loc" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp" >
+
+    <TextView
+        android:id="@+id/baidusearch"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:minHeight="34dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:clickable="true"
+        android:paddingLeft="5dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="2dp"
+        android:background="@drawable/button"
+        android:drawableLeft="@drawable/search"
+        android:text="@string/baidu_search"
+        android:onClick="onBaiduSearchClicked" />
+
+    <TextView
+        android:id="@+id/goto_answer"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:minHeight="34dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="4dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:clickable="true"
+        android:paddingRight="5dp"
+        android:background="@drawable/button"
+        android:drawableRight="@drawable/goto_handle"
+        android:text="@string/goto_handle"
+        android:onClick="goToAnswerOrDecline" />
+    </LinearLayout>
+
+    <WebView
+        android:id="@+id/webview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:layout_marginTop="10dp"
+        android:focusable="true"
+        android:visibility="gone" />
+</LinearLayout>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- color names -->
+    <string-array name="array_color_names">
+        <item>@string/color_name_white</item>
+        <item>@string/color_name_black</item>
+        <item>@string/color_name_red</item>
+        <item>@string/color_name_grey</item>
+        <item>@string/color_name_sky_blue</item>
+        <item>@string/color_name_grass_green</item>
+        <item>@string/color_name_orange</item>
+        <item>@string/color_name_pink</item>
+        <item>@string/color_name_brown</item>
+        <item>@string/color_name_deep_blue</item>
+        <item>@string/color_name_bright_green</item>
+        <item>@string/color_name_bright_yellow</item>
+    </string-array>
+</resources>

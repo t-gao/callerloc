@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">我的来电应用</string>
+    <string name="callerloc">号码归属地:</string>
+    <string name="button_baidu">号码可疑？点击查看百度搜索结果</string>
+    <string name="unknown_loc">未查到归属地</string>
+    <string name="goto_handle">去接听/拒绝</string>
+    <string name="baidu_search">百度该号码</string>
+    <string name="hide_web">隐藏Web页面</string>
+    <string name="check_search_result">查看搜索结果</string>
+    <string name="app_enabled">程序已启用</string>
+    <string name="app_disabled">程序已停用</string>
+    <string name="select_txt_colr">选择文字颜色</string>
+
+    <string name="incoming_call">来电</string>
+    <string name="missed_call">未接来电</string>
+
+    <string name="color_name_white">白色</string>
+    <string name="color_name_black">黑色</string>
+    <string name="color_name_red">红色</string>
+    <string name="color_name_grey">灰色</string>
+    <string name="color_name_sky_blue">天蓝色</string>
+    <string name="color_name_grass_green">草绿色</string>
+    <string name="color_name_orange">橘色</string>
+    <string name="color_name_pink">粉色</string>
+    <string name="color_name_brown">棕色</string>
+    <string name="color_name_deep_blue">深蓝色</string>
+    <string name="color_name_bright_green">亮绿色</string>
+    <string name="color_name_bright_yellow">亮黄色</string>
+
+    <string name="app_info">本程序用于在来电时以悬浮窗显示号码归属地，挂断后，点击悬浮窗可关闭之。本程序仅对中国大陆地区的移动手机号码有效。</string>
+
+    <string name="config_info">点击以启用/停用本程序。停用则本程序不会有任何作用。</string>
+</resources>

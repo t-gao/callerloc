@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">My Callerloc App</string>
+    <string name="callerloc">Caller Location:</string>
+    <string name="unknown_loc">Location unknown</string>
+    <string name="goto_handle">Answer/Decline</string>
+    <string name="baidu_search">Search this number</string>
+    <string name="hide_web">Hide Web page</string>
+    <string name="check_search_result">Check search result</string>
+    <string name="app_enabled">App in use</string>
+    <string name="app_disabled">App not in use</string>
+    <string name="select_txt_colr">Select text color</string>
+
+    <string name="incoming_call">Incoming call</string>
+    <string name="missed_call">Missed call</string>
+
+    <string name="color_name_white">White</string>
+    <string name="color_name_black">Black</string>
+    <string name="color_name_red">Red</string>
+    <string name="color_name_grey">Grey</string>
+    <string name="color_name_sky_blue">Sapphire</string>
+    <string name="color_name_grass_green">Grass green</string>
+    <string name="color_name_orange">Orange</string>
+    <string name="color_name_pink">Pink</string>
+    <string name="color_name_brown">Brown</string>
+    <string name="color_name_deep_blue">Deep blue</string>
+    <string name="color_name_bright_green">Bright green</string>
+    <string name="color_name_bright_yellow">Bright yellow</string>
+
+    <string name="app_info">This application is intended to show the caller location of an incoming call in a floating window. After hung up, click on the floating window to dismiss it. Please be informed that this app works only for mobile numbers from China(Mainland)</string>
+
+    <string name="config_info">Tap to enable/disable this app. This app has no influence or function if disabled.</string>
+</resources>

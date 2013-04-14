@@ -15,8 +15,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.tony.callerloc.CallerlocApp;
 import com.tony.callerloc.R;
 
+/**
+ * @author Tony Gao
+ *
+ */
 public class ConfigActivity extends BaseActivity {
 
     private static final String TAG = "ConfigActivity";
@@ -26,11 +31,15 @@ public class ConfigActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (LOG_ENABLED) {
+            CallerlocApp app = (CallerlocApp) getApplication();
+            Log.d(TAG, "onCreate entered, initdb in progress? " + app.isInitializingDatabase());
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
         mEnableBtn = (ToggleButton) findViewById(R.id.enable);
-        mEnableBtn.setChecked(mPrefs.getBoolean(PREFERENCES_KEY_APP_ENABLED, true));
+        mEnableBtn.setChecked(mPrefs.getBoolean(PREFERENCES_KEY_APP_ENABLED, false));
 
         mEnableBtn.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
@@ -59,12 +68,12 @@ public class ConfigActivity extends BaseActivity {
             }
         });
 
-        int initPos = mPrefs.getInt(PREFERENCES_KEY_TEXT_COLOR_POS, 0);
+        int initPos = mPrefs.getInt(PREFERENCES_KEY_TEXT_COLOR_POS, BaseActivity.DEFAULT_COLOR_POS);
         if (LOG_ENABLED) {
             Log.d(TAG, "spinner initial position: " + initPos);
         }
         if (initPos > 11) {
-            initPos = 0;
+            initPos = BaseActivity.DEFAULT_COLOR_POS;
         }
         mSelectColorSpinner.setSelection(initPos);
     }

@@ -19,7 +19,12 @@ import android.widget.TextView;
 
 import com.tony.callerloc.CallerlocApp;
 import com.tony.callerloc.R;
+import com.tony.callerloc.ui.BaseActivity;
 
+/**
+ * @author Tony Gao
+ *
+ */
 public class FloatingWindowService extends Service {
 
     public static final String TAG = "FloatingWindowService";
@@ -29,6 +34,7 @@ public class FloatingWindowService extends Service {
     WindowManager.LayoutParams wmParams = null;
 
     private int mCallState = -1;
+    private String mLastNumber;
     private String mNumber;
     private String mLoc;
 
@@ -38,7 +44,7 @@ public class FloatingWindowService extends Service {
 
     private RetrieveCallerLocTask mRetrieveTask;
 
-    private boolean mAdded = false;
+    // private boolean mAdded = false;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -53,8 +59,8 @@ public class FloatingWindowService extends Service {
 
         wm = (WindowManager) this.getSystemService(WINDOW_SERVICE);
         wmParams = new LayoutParams();
-        wmParams.type = LayoutParams.TYPE_PRIORITY_PHONE;
-        wmParams.flags |= LayoutParams.FLAG_NOT_FOCUSABLE;
+        wmParams.type = LayoutParams.TYPE_SYSTEM_ERROR;
+        wmParams.flags |= (LayoutParams.FLAG_NOT_FOCUSABLE | LayoutParams.FLAG_DISMISS_KEYGUARD | LayoutParams.FLAG_SHOW_WHEN_LOCKED);
         wmParams.gravity = Gravity.CENTER;
 
         DisplayMetrics metrics = getResources().getDisplayMetrics();
@@ -65,7 +71,8 @@ public class FloatingWindowService extends Service {
         inflateFloatingView();
 
         wm.addView(mFloating, wmParams);
-        mAdded = true;
+        mFloating.bringToFront();
+        // mAdded = true;
     }
 
     @Override
@@ -74,11 +81,22 @@ public class FloatingWindowService extends Service {
 
         super.onStartCommand(intent, flags, startId);
 
+        if (mFloating != null) {
+            mFloating.bringToFront();
+        }
+
         getExtraFromIntent(intent);
-        if (mCallState != CallAnswerService.CALL_STATE_MISSED && mNumber != null) {
-            if (mRetrieveTask == null) {
-                mRetrieveTask = new RetrieveCallerLocTask();
+        // TODO: incoming call while in a call?
+        if (mCallState != CallAnswerService.CALL_STATE_MISSED && mNumber != null
+                && !mNumber.equals(mLastNumber)) {
+            try {
+                if (mRetrieveTask != null && mRetrieveTask.getStatus() != AsyncTask.Status.FINISHED) {
+                    mRetrieveTask.cancel(true);
+                }
+            } catch (Exception e) {
+                Log.e(TAG, "Exception trying to cancel AsyncTask: ", e);
             }
+            mRetrieveTask = new RetrieveCallerLocTask();
             mRetrieveTask.execute(mNumber);
         }
         setTextViews();
@@ -104,6 +122,7 @@ public class FloatingWindowService extends Service {
     }
 
     private void getExtraFromIntent(Intent i) {
+        mLastNumber = mNumber;
         if (i != null) {
             mCallState = i.getExtras().getInt(CallAnswerService.EXTRA_CALL_STATE, -1);
             mNumber = i.getExtras().getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
@@ -115,7 +134,7 @@ public class FloatingWindowService extends Service {
     public void onDestroy() {
         Log.d(TAG, "onDestroy");
 
-        if (mFloating != null && mAdded) {
+        if (mFloating != null /* && mAdded */) {
             wm.removeView(mFloating);
         }
 
@@ -123,7 +142,9 @@ public class FloatingWindowService extends Service {
     }
 
     private void inflateFloatingView() {
-        Log.d(TAG, "inflateFloatingView");
+        if (BaseActivity.LOG_ENABLED) {
+            Log.d(TAG, "inflateFloatingView");
+        }
 
         mFloating = LayoutInflater.from(getApplicationContext()).inflate(R.layout.floating, null);
 
@@ -149,7 +170,11 @@ public class FloatingWindowService extends Service {
                         lastY = event.getRawY();
                         paramX = wmParams.x;
                         paramY = wmParams.y;
-                        Log.d(TAG, "action down, x: , y: " + lastX + " " + lastY);
+
+                        if (BaseActivity.LOG_ENABLED) {
+                            Log.d(TAG, "action down, x: , y: " + lastX + " " + lastY);
+                        }
+
                         break;
                     case MotionEvent.ACTION_MOVE:
                         float dx = (int) (event.getRawX() - lastX);
@@ -157,15 +182,24 @@ public class FloatingWindowService extends Service {
                         wmParams.x = paramX + (int) dx;
                         wmParams.y = paramY + (int) dy;
                         wm.updateViewLayout(mFloating, wmParams);
-                        Log.d(TAG, "action move, dx: , dy: " + dx + " " + dy);
+
+                        if (BaseActivity.LOG_ENABLED) {
+                            Log.d(TAG, "action move, dx: , dy: " + dx + " " + dy);
+                        }
+
                         break;
                     case MotionEvent.ACTION_UP:
                         dx = event.getRawX() - lastX;
                         dy = event.getRawY() - lastY;
-                        Log.d(TAG, "action up, dx: , dy: " + dx + " " + dy);
+
+                        if (BaseActivity.LOG_ENABLED) {
+                            Log.d(TAG, "action up, dx: , dy: " + dx + " " + dy);
+                        }
+
                         if (mCallState == CallAnswerService.CALL_STATE_MISSED) {
                             // if it's click
-                            if (Math.abs(dx) < 3 && Math.abs(dy) < 3 && mFloating != null) {
+                            if (Math.abs(dx) < 3 && Math.abs(dy) < 3 /* && mFloating != null */) {
+                                //TODO: goto call history page (optional)
                                 stopSelf();
                             }
                         }
@@ -184,7 +218,7 @@ public class FloatingWindowService extends Service {
             String loc = "";
             CallerlocRetriever retriever = CallerlocRetriever.getInstance();
             if (retriever != null) {
-                loc = retriever.retrieveCallerLoc(params[0]);
+                loc = retriever.retrieveCallerLocFromDb(FloatingWindowService.this, params[0]);
             }
             return loc;
         }
@@ -197,6 +231,5 @@ public class FloatingWindowService extends Service {
                 mLocView.setText(mLoc);
             }
         }
-
     }
 }

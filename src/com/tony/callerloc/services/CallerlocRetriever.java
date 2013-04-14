@@ -12,11 +12,16 @@ import java.util.regex.Pattern;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.tony.callerloc.db.DbHandler;
 import com.tony.callerloc.ui.BaseActivity;
 
+/**
+ * @author Tony Gao
+ */
 public class CallerlocRetriever {
 
     private static final String TAG = "CallerlocRetriever";
@@ -26,13 +31,16 @@ public class CallerlocRetriever {
     private static final String callerLocUrlBase = "http://www.youdao.com/smartresult-xml/search.s?jsFlag=true&type=mobile&q=";
 
     // Returned data is in Json format:
-    // updateCall(1, {'product':'mobile','phonenum':'15850781443','location':'╫╜ку
-    // до╬╘'} , '');
+    // updateCall(1,
+    // {'product':'mobile','phonenum':'15850781443','location':'О©╫О©╫О©╫О©╫
+    // О©╫о╬О©╫'} , '');
 
     public static final String JSON_KEY_NUMBER = "phonenum";
     public static final String JSON_KEY_LOCATION = "location";
 
     private Pattern numberPattern = Pattern.compile("[0-9]*");
+
+    private DbHandler mDbHandler;
 
     private static volatile CallerlocRetriever mInstance = new CallerlocRetriever();
 
@@ -41,11 +49,30 @@ public class CallerlocRetriever {
     }
 
     private CallerlocRetriever() {
-
     }
 
     private boolean isLegalChineseMobileNumber(String number) {
         return number != null && number.length() == 11 && numberPattern.matcher(number).matches();
+    }
+
+    public String retrieveCallerLocFromDb(Context context, String number) {
+
+        // Log.d(TAG, "retrieveCallerLocFromDb called");
+
+        if (mDbHandler == null) {
+            mDbHandler = new DbHandler(context);
+        }
+
+        if (!isLegalChineseMobileNumber(number)) {
+            return null;
+        }
+
+        if (number != null && number.length() >= 7) {
+            int prefix = Integer.valueOf(number.substring(0, 3));
+            int mid = Integer.valueOf(number.substring(3, 7));
+            return mDbHandler.queryLoc(prefix, mid);
+        }
+        return null;
     }
 
     /**
@@ -56,7 +83,6 @@ public class CallerlocRetriever {
      *         URLConnection
      */
     public String retrieveCallerLoc(String number) {
-        //TODO: first try to retrieve from database
         if (!isLegalChineseMobileNumber(number)) {
             return null;
         }

@@ -1,26 +1,44 @@
 
 package com.tony.callerloc;
 
+import java.io.IOException;
+
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 
+import com.tony.callerloc.db.DatabaseInitializer;
 import com.tony.callerloc.ui.BaseActivity;
 
+/**
+ * @author Tony Gao
+ */
 public class CallerlocApp extends Application {
 
+    private static final String TAG = "CallerlocApp";
+
+    private boolean mInitDbInProgress = false;
     private int mTextColorId;
     private int mCurrentCallState = -1;
 
     @Override
     public void onCreate() {
+        if (BaseActivity.LOG_ENABLED) {
+            Log.d(TAG, "onCreate entered");
+        }
         super.onCreate();
 
         SharedPreferences prefs = getSharedPreferences(BaseActivity.PREFERENCES_NAME, MODE_PRIVATE);
-        int colorPos = prefs.getInt(BaseActivity.PREFERENCES_KEY_TEXT_COLOR_POS, 0);
+
+        // Enable app
+        prefs.edit().putBoolean(BaseActivity.PREFERENCES_KEY_APP_ENABLED, true).commit();
+
+        int colorPos = prefs.getInt(BaseActivity.PREFERENCES_KEY_TEXT_COLOR_POS,
+                BaseActivity.DEFAULT_COLOR_POS);
         if (colorPos > 11) {
-            colorPos = 0;
+            colorPos = BaseActivity.DEFAULT_COLOR_POS;
         }
 
         synchronized (this) {
@@ -31,6 +49,21 @@ public class CallerlocApp extends Application {
         if (t != null) {
             synchronized (this) {
                 mCurrentCallState = t.getCallState();
+            }
+        }
+
+        // init db
+        // TODO: update db
+        if (!prefs.getBoolean(BaseActivity.PREFERENCES_KEY_DB_INITIALIZED, false)) {
+            try {
+                mInitDbInProgress = true;
+                new DatabaseInitializer(getApplicationContext()).initDataBase();
+                prefs.edit().putBoolean(BaseActivity.PREFERENCES_KEY_DB_INITIALIZED, true).commit();
+            } catch (IOException e) {
+                Log.e(TAG, "Init database error: ", e);
+            } finally {
+                mInitDbInProgress = false;
+                Log.d(TAG, "init db finished");
             }
         }
     }
@@ -77,5 +110,9 @@ public class CallerlocApp extends Application {
 
     public synchronized void setCurrentCallState(int currentCallState) {
         mCurrentCallState = currentCallState;
+    }
+
+    public boolean isInitializingDatabase() {
+        return mInitDbInProgress;
     }
 }

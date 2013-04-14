@@ -67,9 +67,9 @@ public class CallerlocActivity extends BaseActivity {
 
         mNumberView = (TextView) findViewById(R.id.caller_number);
         mLocView = (TextView) findViewById(R.id.caller_loc);
-        int colorPos = mPrefs.getInt(PREFERENCES_KEY_TEXT_COLOR_POS, 0);
+        int colorPos = mPrefs.getInt(PREFERENCES_KEY_TEXT_COLOR_POS, BaseActivity.DEFAULT_COLOR_POS);
         if (colorPos > 11) {
-            colorPos = 0;
+            colorPos = BaseActivity.DEFAULT_COLOR_POS;
         }
         int textColor = getResources().getColor(getColorIdByPosition(colorPos));
         mNumberView.setTextColor(textColor);

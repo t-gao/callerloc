@@ -1,1 +1,7 @@
-1. local database storage of loc info
+1. local database storage of location info -- Done
+2. another incoming call while there is a missed call and the floating is added and the AsyncTask has been run(crash) -- Done
+3. another incoming call while in a call -- won't fix
+4. init database in a background thread
+5. show floating window ON TOP OF screen lock view -- Done
+5. (NEW FEATURE)fixed-line telephone incoming call
+6. on click the missed call floating window, go to call history (optional)

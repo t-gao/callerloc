@@ -11,6 +11,10 @@ import android.util.Log;
 
 import com.tony.callerloc.ui.BaseActivity;
 
+/**
+ * @author Tony Gao
+ *
+ */
 public class CallReceiver extends BroadcastReceiver {
 
     private static final String TAG = "CallReceiver";
@@ -49,6 +53,10 @@ public class CallReceiver extends BroadcastReceiver {
         final String number = extras.getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
 
         if (state != null) {
+            if (BaseActivity.LOG_ENABLED) {
+                Log.d(TAG, "broadcast received, call state: " + state);
+            }
+
             Intent i = new Intent(context, CallAnswerService.class);
             if (state.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
                 if (BaseActivity.LOG_ENABLED) {

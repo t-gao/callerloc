@@ -41,7 +41,7 @@
             android:gravity="center"
             android:orientation="vertical"
             android:layout_marginTop="15dp"
-             >"
+             >
         <TextView
             android:id="@+id/select_text_color_label"
             android:layout_height="wrap_content"

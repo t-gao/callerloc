@@ -4,4 +4,10 @@
 4. init database in a background thread
 5. show floating window ON TOP OF screen lock view -- Done
 5. (NEW FEATURE)fixed-line telephone incoming call
-6. on click the missed call floating window, go to call history (optional)
+6. (NEW FEATURE)on click the missed call floating window, go to call history (optional)
+7. (NEW FEATURE)add location info to calllogs
+8. modify config activity UI to :
+    1) support input number and query location
+    2) add a progress bar while initialing database
+    3) add location info to calllogs
+    4) move about and version info to another page

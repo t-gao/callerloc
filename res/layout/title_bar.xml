@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/title"
+    style="@style/TitleBarLayout"
+    android:paddingLeft="5dp"
+    android:textSize="18sp"
+    android:typeface="normal"
+    android:textColor="@color/white"
+    android:gravity="center_vertical"
+    android:drawableLeft="@drawable/ic_launcher"
+    android:drawableBottom="@android:drawable/divider_horizontal_bright"
+    android:text="@string/app_name" />

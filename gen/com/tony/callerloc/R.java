@@ -38,24 +38,26 @@ public final class R {
         public static final int transparent=0x7f020004;
     }
     public static final class id {
-        public static final int baidusearch=0x7f070002;
-        public static final int caller_loc=0x7f070001;
-        public static final int caller_number=0x7f070000;
-        public static final int color_text=0x7f07000b;
-        public static final int enable=0x7f070008;
-        public static final int goto_answer=0x7f070003;
-        public static final int label=0x7f070005;
-        public static final int loc=0x7f070007;
-        public static final int number=0x7f070006;
-        public static final int select_text_color_label=0x7f070009;
-        public static final int select_text_color_spinner=0x7f07000a;
-        public static final int webview=0x7f070004;
+        public static final int baidusearch=0x7f080002;
+        public static final int caller_loc=0x7f080001;
+        public static final int caller_number=0x7f080000;
+        public static final int color_text=0x7f08000b;
+        public static final int enable=0x7f080008;
+        public static final int goto_answer=0x7f080003;
+        public static final int label=0x7f080005;
+        public static final int loc=0x7f080007;
+        public static final int number=0x7f080006;
+        public static final int select_text_color_label=0x7f080009;
+        public static final int select_text_color_spinner=0x7f08000a;
+        public static final int title=0x7f08000c;
+        public static final int webview=0x7f080004;
     }
     public static final class layout {
         public static final int callerloc_layout=0x7f030000;
         public static final int floating=0x7f030001;
         public static final int main=0x7f030002;
         public static final int spinner_row_layout=0x7f030003;
+        public static final int title_bar=0x7f030004;
     }
     public static final class string {
         public static final int app_disabled=0x7f060009;
@@ -85,5 +87,9 @@ public final class R {
         public static final int missed_call=0x7f06000c;
         public static final int select_txt_colr=0x7f06000a;
         public static final int unknown_loc=0x7f060003;
+    }
+    public static final class style {
+        public static final int ActivityStyle=0x7f070000;
+        public static final int TitleBarLayout=0x7f070001;
     }
 }

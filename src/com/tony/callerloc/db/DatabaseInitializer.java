@@ -54,7 +54,7 @@ public class DatabaseInitializer {
                 while ((count = is.read(buffer)) > 0) {
                     os.write(buffer, 0, count);
                     os.flush();
-                    Log.d(TAG, "count: " + count);
+//                    Log.d(TAG, "count: " + count);
                 }
             } catch (IOException e) {
                 Log.e(TAG, "init db", e);

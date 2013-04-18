@@ -33,9 +33,16 @@ public class CallReceiver extends BroadcastReceiver {
             return;
         }
 
+        if (!prefs.getBoolean(BaseActivity.PREFERENCES_KEY_DB_INITIALIZED, false)) {
+            if (BaseActivity.LOG_ENABLED) {
+                Log.d(TAG, "database not ready, exiting!");
+            }
+            return;
+        }
+
         if (!prefs.getBoolean(BaseActivity.PREFERENCES_KEY_APP_ENABLED, false)) {
             if (BaseActivity.LOG_ENABLED) {
-                Log.d(TAG, "app disabled, exit");
+                Log.d(TAG, "app disabled, exiting!");
             }
             return;
         }

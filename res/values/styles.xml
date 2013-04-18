@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="ActivityStyle" parent="android:Theme.Light">
+        <item name="android:windowTitleSize">48dip</item>
+    </style>
+
+    <style name="TitleBarLayout" parent="ActivityStyle">
+        <item name="android:layout_height">48dip</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+</resources>

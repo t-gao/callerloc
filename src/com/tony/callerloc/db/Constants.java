@@ -25,4 +25,18 @@ public class Constants {
         public static final String MID = "mid";
         public static final String LOC = "loc";
     }
+	public static final class FixedlineAreaCode implements BaseColumns,
+			FixedlineAreaCodeColumns {
+
+		private FixedlineAreaCode() {
+		}
+
+		public static final String TABLE_FIXEDLINE = "fixedline";
+	}
+
+	public interface FixedlineAreaCodeColumns {
+		public static final String AREA_CODE = "areacode";
+		public static final String PROVINCE = "province";
+		public static final String CITY = "city";
+	}
 }

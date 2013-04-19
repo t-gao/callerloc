@@ -42,6 +42,11 @@ public class CallerlocRetriever {
 
     private DbHandler mDbHandler;
 
+    public static final int NUM_TYPE_INVALID = -1;
+    public static final int NUM_TYPE_MOBILE = 1;
+    public static final int NUM_TYPE_FIXEDLINE = 2;
+    public static final int NUM_TYPE_FIXEDLINE_NO_AREA_CODE = 3;
+
     private static volatile CallerlocRetriever mInstance = new CallerlocRetriever();
 
     public static CallerlocRetriever getInstance() {
@@ -51,8 +56,18 @@ public class CallerlocRetriever {
     private CallerlocRetriever() {
     }
 
-    private boolean isLegalChineseMobileNumber(String number) {
-        return number != null && number.length() == 11 && numberPattern.matcher(number).matches();
+    private int getTypeOfNumber(String number) {
+        int type = NUM_TYPE_INVALID;
+        if (number != null && numberPattern.matcher(number).matches()) {
+            if (number.startsWith("1") && number.length() == 11) {
+                type = NUM_TYPE_MOBILE;
+            } else if (number.startsWith("0") && number.length() > 8) {
+                type = NUM_TYPE_FIXEDLINE;
+            } else if (!number.startsWith("0") && number.length() <= 8){
+                type = NUM_TYPE_FIXEDLINE_NO_AREA_CODE;
+            }
+        }
+        return type;
     }
 
     public String retrieveCallerLocFromDb(Context context, String number) {
@@ -63,16 +78,12 @@ public class CallerlocRetriever {
             mDbHandler = new DbHandler(context);
         }
 
-        if (!isLegalChineseMobileNumber(number)) {
+        int type = getTypeOfNumber(number);
+
+        if (type == NUM_TYPE_INVALID) {
             return null;
         }
-
-        if (number != null && number.length() >= 7) {
-            int prefix = Integer.valueOf(number.substring(0, 3));
-            int mid = Integer.valueOf(number.substring(3, 7));
-            return mDbHandler.queryLoc(prefix, mid);
-        }
-        return null;
+        return mDbHandler.queryLoc(number, type);
     }
 
     /**
@@ -83,7 +94,7 @@ public class CallerlocRetriever {
      *         URLConnection
      */
     public String retrieveCallerLoc(String number) {
-        if (!isLegalChineseMobileNumber(number)) {
+        if (getTypeOfNumber(number) == NUM_TYPE_INVALID) {
             return null;
         }
         String result = searchByURLConnection(callerLocUrlBase, number, ENCODING_GB2312);

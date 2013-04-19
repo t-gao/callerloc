@@ -18,6 +18,9 @@
     <string name="refresh_calllogs_detail">向通话记录中添加归属地信息</string>
     <string name="about">关于本程序</string>
 
+    <string name="same_city">同城</string>
+    <string name="city_beijing">北京市</string>
+
     <string name="incoming_call">来电</string>
     <string name="missed_call">未接来电</string>
 

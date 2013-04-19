@@ -100,7 +100,7 @@ public class ConfigActivity extends BaseActivity {
         if (id == DIALOG_PROGRESS) {
             ProgressDialog dialog = new ProgressDialog(this);
             dialog.setCancelable(false);
-            dialog.setMessage(R.string.init_db_wait_msg);
+            dialog.setMessage(getString(R.string.init_db_wait_msg));
             return dialog;
         }
         return null;

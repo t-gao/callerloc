@@ -16,6 +16,8 @@
     <string name="refresh_calllogs">Refresh call logs</string>
     <string name="refresh_calllogs_detail">Insert location info to call logs</string>
     <string name="about">About</string>
+    <string name="same_city">Same city</string>
+    <string name="city_beijing">Beijing</string>
 
     <string name="incoming_call">Incoming call</string>
     <string name="missed_call">Missed call</string>

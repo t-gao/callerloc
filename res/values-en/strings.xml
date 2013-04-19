@@ -11,6 +11,11 @@
     <string name="app_enabled">App in use</string>
     <string name="app_disabled">App not in use</string>
     <string name="select_txt_colr">Select text color</string>
+    <string name="input_to_query">Input a number to query it\'s location</string>
+    <string name="input_number">Input a number</string>
+    <string name="refresh_calllogs">Refresh call logs</string>
+    <string name="refresh_calllogs_detail">Insert location info to call logs</string>
+    <string name="about">About</string>
 
     <string name="incoming_call">Incoming call</string>
     <string name="missed_call">Missed call</string>
@@ -28,7 +33,9 @@
     <string name="color_name_bright_green">Bright green</string>
     <string name="color_name_bright_yellow">Bright yellow</string>
 
-    <string name="app_info">This application is intended to show the caller location of an incoming call in a floating window. After hung up, click on the floating window to dismiss it. Please be informed that this app works only for mobile numbers from China(Mainland)</string>
+    <string name="app_info">This application is intended to show the caller location of an incoming call in a floating window. This app works only for the calls from China(Mainland)</string>
 
-    <string name="config_info">Tap to enable/disable this app. This app has no influence or function if disabled.</string>
+    <string name="config_info">Tap to enable/disable this app.</string>
+
+    <string name="init_db_wait_msg">Initializing database...</string>
 </resources>

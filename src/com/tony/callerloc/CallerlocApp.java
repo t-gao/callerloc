@@ -19,7 +19,6 @@ public class CallerlocApp extends Application {
 
     private static final String TAG = "CallerlocApp";
 
-    private boolean mInitDbInProgress = false;
     private int mTextColorId;
     private int mCurrentCallState = -1;
 
@@ -49,21 +48,6 @@ public class CallerlocApp extends Application {
         if (t != null) {
             synchronized (this) {
                 mCurrentCallState = t.getCallState();
-            }
-        }
-
-        // init db
-        // TODO: update db
-        if (!prefs.getBoolean(BaseActivity.PREFERENCES_KEY_DB_INITIALIZED, false)) {
-            try {
-                mInitDbInProgress = true;
-                new DatabaseInitializer(getApplicationContext()).initDataBase();
-                prefs.edit().putBoolean(BaseActivity.PREFERENCES_KEY_DB_INITIALIZED, true).commit();
-            } catch (IOException e) {
-                Log.e(TAG, "Init database error: ", e);
-            } finally {
-                mInitDbInProgress = false;
-                Log.d(TAG, "init db finished");
             }
         }
     }
@@ -110,9 +94,5 @@ public class CallerlocApp extends Application {
 
     public synchronized void setCurrentCallState(int currentCallState) {
         mCurrentCallState = currentCallState;
-    }
-
-    public boolean isInitializingDatabase() {
-        return mInitDbInProgress;
     }
 }

@@ -12,6 +12,11 @@
     <string name="app_enabled">程序已启用</string>
     <string name="app_disabled">程序已停用</string>
     <string name="select_txt_colr">选择文字颜色</string>
+    <string name="input_to_query">输入号码查询归属地</string>
+    <string name="input_number">输入号码</string>
+    <string name="refresh_calllogs">更新通话记录</string>
+    <string name="refresh_calllogs_detail">向通话记录中添加归属地信息</string>
+    <string name="about">关于本程序</string>
 
     <string name="incoming_call">来电</string>
     <string name="missed_call">未接来电</string>
@@ -29,7 +34,9 @@
     <string name="color_name_bright_green">亮绿色</string>
     <string name="color_name_bright_yellow">亮黄色</string>
 
-    <string name="app_info">本程序用于在来电时以悬浮窗显示号码归属地，挂断后，点击悬浮窗可关闭之。本程序仅对中国大陆地区的移动手机号码有效。</string>
+    <string name="app_info">本程序用于在来电时以悬浮窗显示号码归属地。本程序仅对中国大陆地区的座机和移动手机号码的来电有效。</string>
 
-    <string name="config_info">点击以启用/停用本程序。停用则本程序不会有任何作用。</string>
+    <string name="config_info">点击以启用/停用本程序。</string>
+
+    <string name="init_db_wait_msg">正在初始化数据库，请稍等...</string>
 </resources>

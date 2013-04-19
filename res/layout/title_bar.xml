@@ -7,6 +7,7 @@
     android:typeface="normal"
     android:textColor="@color/white"
     android:gravity="center_vertical"
+    android:clickable="false"
     android:drawableLeft="@drawable/ic_launcher"
     android:drawableBottom="@android:drawable/divider_horizontal_bright"
     android:text="@string/app_name" />

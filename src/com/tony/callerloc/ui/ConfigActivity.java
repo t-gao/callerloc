@@ -1,7 +1,13 @@
 
 package com.tony.callerloc.ui;
 
+import java.io.IOException;
+
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +23,7 @@ import android.widget.ToggleButton;
 
 import com.tony.callerloc.CallerlocApp;
 import com.tony.callerloc.R;
+import com.tony.callerloc.db.DatabaseInitializer;
 
 /**
  * @author Tony Gao
@@ -25,16 +32,15 @@ import com.tony.callerloc.R;
 public class ConfigActivity extends BaseActivity {
 
     private static final String TAG = "ConfigActivity";
+
+    private static final int DIALOG_PROGRESS = 1;
+
     private ToggleButton mEnableBtn;
     private Spinner mSelectColorSpinner;
     private String[] mColors;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (LOG_ENABLED) {
-            CallerlocApp app = (CallerlocApp) getApplication();
-            Log.d(TAG, "onCreate entered, initdb in progress? " + app.isInitializingDatabase());
-        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
@@ -78,6 +84,52 @@ public class ConfigActivity extends BaseActivity {
         mSelectColorSpinner.setSelection(initPos);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // init db
+        if (!mPrefs.getBoolean(BaseActivity.PREFERENCES_KEY_DB_INITIALIZED, false)) {
+            showProgressDialog();
+            new InitDbTask().execute();
+        }
+    }
+
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        if (id == DIALOG_PROGRESS) {
+            ProgressDialog dialog = new ProgressDialog(this);
+            dialog.setCancelable(false);
+            dialog.setMessage(R.string.init_db_wait_msg);
+            return dialog;
+        }
+        return null;
+    }
+
+    private void showProgressDialog() {
+        showDialog(DIALOG_PROGRESS);
+    }
+
+    private void removeProgressDialog() {
+        removeDialog(DIALOG_PROGRESS);
+    }
+
+    public void onInputNumClicked(View v) {
+        //TODO:
+    }
+
+    public void onQueryClicked(View v) {
+        //TODO:
+    }
+
+    public void onRefreshCalllogsClicked(View v) {
+        //TODO:
+    }
+
+    public void onAboutClicked(View v) {
+        //TODO:
+    }
+
     private class ColorSpinnerAdapter extends ArrayAdapter {
 
         private int textViewId;
@@ -109,5 +161,25 @@ public class ConfigActivity extends BaseActivity {
             return getView(position, convertView, parent);
         }
 
+    }
+
+    private class InitDbTask extends AsyncTask<Object, Object, Object> {
+
+        @Override
+        protected Object doInBackground(Object... params) {
+            try {
+                new DatabaseInitializer(getApplicationContext()).initDataBase();
+            } catch (IOException e) {
+                Log.e(TAG, "Init database error: ", e);
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Object result) {
+            mPrefs.edit().putBoolean(BaseActivity.PREFERENCES_KEY_DB_INITIALIZED, true).commit();
+            Log.d(TAG, "init db finished");
+            removeProgressDialog();
+        }
     }
 }

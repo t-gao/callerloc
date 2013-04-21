@@ -7,10 +7,16 @@
     <include
         layout="@layout/title_bar" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="1dp"
+        android:background="@color/bright_green" />
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@drawable/button"
+        android:background="@drawable/bg_black"
         android:layout_marginTop="2dp"
         android:layout_marginLeft="2dp"
         android:layout_marginRight="2dp" >
@@ -40,6 +46,7 @@
                 android:layout_weight="1"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
+                android:background="@drawable/input_box"
                 android:hint="@string/input_number"
                 android:drawableLeft="@drawable/search"
                 android:inputType="phone"
@@ -48,6 +55,7 @@
                 android:id="@+id/query_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:src="@drawable/search"
                 android:onClick="onQueryClicked" />
         </LinearLayout>
@@ -59,32 +67,42 @@
         android:layout_marginLeft="2dp"
         android:layout_marginRight="2dp"
         android:layout_marginTop="5dp"
-        android:background="@drawable/button"
+        android:background="@drawable/bg_black"
         android:clickable="true"
         android:onClick="onRefreshCalllogsClicked"
-        android:orientation="vertical" >
-        <TextView
-            android:id="@+id/refresh_calllogs"
-            android:layout_width="match_parent"
+        android:orientation="horizontal" >
+        <ImageView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="30dp"
-            android:layout_marginTop="3dp"
             android:layout_gravity="center_vertical"
-            android:text="@string/refresh_calllogs"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:gravity="top" />
-        <TextView
-            android:id="@+id/refresh_calllogs_detail"
-            android:layout_width="match_parent"
+            android:src="@drawable/refresh_calllogs" />
+        <LinearLayout
             android:layout_height="wrap_content"
-            android:paddingLeft="30dp"
-            android:layout_marginTop="2dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_gravity="center_vertical"
-            android:text="@string/refresh_calllogs_detail"
-            android:textColor="@color/white"
-            android:textSize="12sp"
-            android:gravity="bottom" />
+            android:orientation="vertical" >
+            <TextView
+                android:id="@+id/refresh_calllogs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="2dp"
+                android:layout_gravity="center_vertical"
+                android:text="@string/refresh_calllogs"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:gravity="top" />
+            <TextView
+                android:id="@+id/refresh_calllogs_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="2dp"
+                android:layout_gravity="center_vertical"
+                android:text="@string/refresh_calllogs_detail"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:gravity="bottom" />
+        </LinearLayout>
     </LinearLayout>
 
     <TextView
@@ -94,13 +112,14 @@
         android:layout_marginLeft="2dp"
         android:layout_marginRight="2dp"
         android:layout_marginTop="5dp"
+        android:paddingLeft="2dp"
+        android:background="@drawable/bg_black"
+        android:drawableLeft="@drawable/about"
         android:text="@string/about"
-        android:background="@drawable/button"
         android:textColor="@color/white"
         android:textSize="15sp"
         android:layout_gravity="center_vertical"
         android:gravity="center_vertical"
-        android:drawableLeft="@drawable/ic_menu_about"
         android:clickable="true"
         android:onClick="onAboutClicked" />
 
@@ -119,6 +138,7 @@
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_gravity="center_horizontal"
+        android:background="@drawable/toggle_button_selector"
         android:textOn="@string/app_enabled"
         android:textOff="@string/app_disabled"
         android:layout_marginLeft="2dp"

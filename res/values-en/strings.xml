@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">My Callerloc App</string>
-    <string name="callerloc">Caller Location:</string>
+    <string name="callerloc">Number Location:</string>
     <string name="unknown_loc">Location unknown</string>
     <string name="goto_handle">Answer/Decline</string>
     <string name="baidu_search">Search this number</string>
@@ -35,9 +35,10 @@
     <string name="color_name_bright_green">Bright green</string>
     <string name="color_name_bright_yellow">Bright yellow</string>
 
+    <string name="email_label">Any question, please contact:</string>
     <string name="app_info">This application is intended to show the caller location of an incoming call in a floating window. This app works only for the calls from China(Mainland)</string>
 
-    <string name="config_info">Tap to enable/disable this app.</string>
+    <string name="config_info">Tap to enable/disable this app.\nIf enabled, a floating window will be shown to indicate the caller location when a incoming call comes.</string>
 
     <string name="init_db_wait_msg">Initializing database...</string>
 </resources>

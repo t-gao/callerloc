@@ -37,9 +37,11 @@
     <string name="color_name_bright_green">亮绿色</string>
     <string name="color_name_bright_yellow">亮黄色</string>
 
+    <string name="email_label">如有疑问，欢迎联系：</string>
+    <string name="author_email">"tony.gao000@gmail.com"</string>
     <string name="app_info">本程序用于在来电时以悬浮窗显示号码归属地。本程序仅对中国大陆地区的座机和移动手机号码的来电有效。</string>
 
-    <string name="config_info">点击以启用/停用本程序。</string>
+    <string name="config_info">点击以启用/停用本程序。\n启用后，如有来电，则会在悬浮窗中显示归属地信息。</string>
 
     <string name="init_db_wait_msg">正在初始化数据库，请稍等...</string>
 </resources>

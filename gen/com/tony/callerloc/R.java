@@ -44,29 +44,29 @@ public final class R {
         public static final int transparent=0x7f02000a;
     }
     public static final class id {
-        public static final int about=0x7f080011;
-        public static final int app_info=0x7f080000;
-        public static final int author_email=0x7f080002;
-        public static final int baidusearch=0x7f080005;
-        public static final int caller_loc=0x7f080004;
-        public static final int caller_number=0x7f080003;
-        public static final int color_text=0x7f080015;
-        public static final int email_label=0x7f080001;
-        public static final int enable=0x7f080012;
-        public static final int goto_answer=0x7f080006;
-        public static final int input_num=0x7f08000c;
-        public static final int input_num_eidttext=0x7f08000d;
-        public static final int label=0x7f080008;
-        public static final int loc=0x7f08000a;
-        public static final int number=0x7f080009;
-        public static final int query_btn=0x7f08000e;
-        public static final int query_num_textview=0x7f08000b;
-        public static final int refresh_calllogs=0x7f08000f;
-        public static final int refresh_calllogs_detail=0x7f080010;
-        public static final int select_text_color_label=0x7f080013;
-        public static final int select_text_color_spinner=0x7f080014;
-        public static final int title=0x7f080016;
-        public static final int webview=0x7f080007;
+        public static final int about=0x7f090011;
+        public static final int app_info=0x7f090000;
+        public static final int author_email=0x7f090002;
+        public static final int baidusearch=0x7f090005;
+        public static final int caller_loc=0x7f090004;
+        public static final int caller_number=0x7f090003;
+        public static final int color_text=0x7f090015;
+        public static final int email_label=0x7f090001;
+        public static final int enable=0x7f090012;
+        public static final int goto_answer=0x7f090006;
+        public static final int input_num=0x7f09000c;
+        public static final int input_num_eidttext=0x7f09000d;
+        public static final int label=0x7f090008;
+        public static final int loc=0x7f09000a;
+        public static final int number=0x7f090009;
+        public static final int query_btn=0x7f09000e;
+        public static final int query_num_textview=0x7f09000b;
+        public static final int refresh_calllogs=0x7f09000f;
+        public static final int refresh_calllogs_detail=0x7f090010;
+        public static final int select_text_color_label=0x7f090013;
+        public static final int select_text_color_spinner=0x7f090014;
+        public static final int title=0x7f090016;
+        public static final int webview=0x7f090007;
     }
     public static final class layout {
         public static final int about_dialog=0x7f030000;
@@ -75,6 +75,9 @@ public final class R {
         public static final int main=0x7f030003;
         public static final int spinner_row_layout=0x7f030004;
         public static final int title_bar=0x7f030005;
+    }
+    public static final class plurals {
+        public static final int number_of_calllogs_updated=0x7f070000;
     }
     public static final class string {
         public static final int about=0x7f06000f;
@@ -114,9 +117,10 @@ public final class R {
         public static final int same_city=0x7f060010;
         public static final int select_txt_colr=0x7f06000a;
         public static final int unknown_loc=0x7f060003;
+        public static final int update_calllogs_wait_msg=0x7f060025;
     }
     public static final class style {
-        public static final int ActivityStyle=0x7f070000;
-        public static final int TitleBarLayout=0x7f070001;
+        public static final int ActivityStyle=0x7f080000;
+        public static final int TitleBarLayout=0x7f080001;
     }
 }

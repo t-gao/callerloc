@@ -15,14 +15,14 @@
     <string name="input_to_query">输入号码查询归属地</string>
     <string name="input_number">输入号码</string>
     <string name="refresh_calllogs">更新通话记录</string>
-    <string name="refresh_calllogs_detail">向通话记录中添加归属地信息</string>
+    <string name="refresh_calllogs_detail">向陌生号码的通话记录中添加归属地信息</string>
     <string name="about">关于本程序</string>
 
     <string name="same_city">同城</string>
     <string name="city_beijing">北京市</string>
 
     <string name="incoming_call">来电</string>
-    <string name="missed_call">未接来电</string>
+    <string name="missed_call">已结束</string>
 
     <string name="color_name_white">白色</string>
     <string name="color_name_black">黑色</string>
@@ -37,11 +37,18 @@
     <string name="color_name_bright_green">亮绿色</string>
     <string name="color_name_bright_yellow">亮黄色</string>
 
-    <string name="email_label">如有疑问，欢迎联系：</string>
+    <string name="email_label">任何疑问或建议，欢迎联系：</string>
     <string name="author_email">"tony.gao000@gmail.com"</string>
     <string name="app_info">本程序用于在来电时以悬浮窗显示号码归属地。本程序仅对中国大陆地区的座机和移动手机号码的来电有效。</string>
 
     <string name="config_info">点击以启用/停用本程序。\n启用后，如有来电，则会在悬浮窗中显示归属地信息。</string>
 
     <string name="init_db_wait_msg">正在初始化数据库，请稍等...</string>
+    <string name="update_calllogs_wait_msg">正在更新通话记录，请稍等...</string>
+
+    <plurals name="number_of_calllogs_updated">
+        <item quantity="zero">没有可更新记录！</item>
+        <item quantity="one">1条通话记录已更新！</item>
+        <item quantity="other">%d条通话记录已更新！</item>
+    </plurals>
 </resources>

@@ -47,6 +47,9 @@ public class CallerlocRetriever {
     public static final int NUM_TYPE_FIXEDLINE = 2;
     public static final int NUM_TYPE_FIXEDLINE_NO_AREA_CODE = 3;
 
+    //TODO: Other operators
+    private static final String IP_PREFIX_CHINA_MOBILE = "17951";
+
     private static volatile CallerlocRetriever mInstance = new CallerlocRetriever();
 
     public static CallerlocRetriever getInstance() {
@@ -56,12 +59,29 @@ public class CallerlocRetriever {
     private CallerlocRetriever() {
     }
 
+    private String preProcessNum(String number) {
+        String ret = number;
+
+        if (ret != null) {
+            if (ret.length() >= 16 && ret.startsWith(IP_PREFIX_CHINA_MOBILE)) {
+                ret = ret.substring(5);
+            }
+            if (ret.startsWith("+86")) {
+                ret = ret.substring(3);
+            }
+            if (ret.startsWith("+")) {
+                ret = ret.substring(1);
+            }
+        }
+        return ret;
+    }
+
     private int getTypeOfNumber(String number) {
         int type = NUM_TYPE_INVALID;
         if (number != null && numberPattern.matcher(number).matches()) {
             if (number.startsWith("1") && number.length() == 11) {
                 type = NUM_TYPE_MOBILE;
-            } else if (number.startsWith("0") && number.length() > 8) {
+            } else if (number.startsWith("0")) {
                 type = NUM_TYPE_FIXEDLINE;
             } else if (!number.startsWith("0") && number.length() <= 8){
                 type = NUM_TYPE_FIXEDLINE_NO_AREA_CODE;
@@ -78,6 +98,7 @@ public class CallerlocRetriever {
             mDbHandler = new DbHandler(context);
         }
 
+        number = preProcessNum(number);
         int type = getTypeOfNumber(number);
 
         if (type == NUM_TYPE_INVALID) {

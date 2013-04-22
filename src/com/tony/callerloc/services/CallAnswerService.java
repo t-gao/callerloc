@@ -116,14 +116,6 @@ public class CallAnswerService extends IntentService {
             }
         }
 
-        if (number != null) {
-            // ONLY supports Chinese mobile numbers
-            if (number.startsWith("+86")) {
-                number = number.substring(3);
-            } else if (number.startsWith("+")) {
-                number = number.substring(1);
-            }
-        }
         return number;
     }
 

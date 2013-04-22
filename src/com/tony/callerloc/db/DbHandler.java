@@ -116,6 +116,8 @@ public class DbHandler {
                     return mContext.getString(R.string.city_beijing);
                 }
             } else if (type == CallerlocRetriever.NUM_TYPE_FIXEDLINE_NO_AREA_CODE) {
+                // TODO: check if it is a special number like "95555"
+
                 // TODO: read my city areacode from setting
                 // areacode = readMyCityAreaCode();
                 if (areacode == -1) {

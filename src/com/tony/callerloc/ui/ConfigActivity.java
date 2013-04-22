@@ -2,13 +2,19 @@
 package com.tony.callerloc.ui;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.CallLog;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
@@ -40,9 +46,28 @@ public class ConfigActivity extends BaseActivity {
 
     private static final String TAG = "ConfigActivity";
 
-    private static final int DIALOG_PROGRESS = 1;
-    private static final int DIALOG_LOC_INFO = 2;
-    private static final int DIALOG_ABOUT = 3;
+    private static final int DIALOG_PROGRESS_INIT_DB = 0;
+    private static final int DIALOG_PROGRESS_UPDATE_CALL_LOGS = 1;
+    private static final int DIALOG_ALERT_LOC_INFO = 2;
+    private static final int DIALOG_ALERT_UPDATED_CALL_LOGS_NUM = 3;
+    private static final int DIALOG_ABOUT = 4;
+
+    private static final String CALL_LOGS_UPDATE_SELECTION = CallLog.Calls._ID + "=?";
+
+    private static final String CALL_LOGS_QUERY_SELECTION = "(" + CallLog.Calls.CACHED_NAME
+            + " IS NULL OR " + CallLog.Calls.CACHED_NAME + "=?) AND ("
+            + CallLog.Calls.CACHED_NUMBER_LABEL + " IS NULL OR "
+            + CallLog.Calls.CACHED_NUMBER_LABEL + "=?)";
+
+    private static final String[] CALL_LOGS_QUERY_PROJECTION = {
+            CallLog.Calls._ID, CallLog.Calls.NUMBER, CallLog.Calls.CACHED_NAME,
+            CallLog.Calls.CACHED_NUMBER_LABEL
+    };
+
+    private static final int IDX_ID = 0;
+    private static final int IDX_NUMBER = 1;
+    private static final int IDX_NAME = 2;
+    private static final int IDX_LABEL = 3;
 
     private View mAboutView;
     private TextView mQueryTextView;
@@ -55,6 +80,8 @@ public class ConfigActivity extends BaseActivity {
     // for input and query
     private String mLoc;
     private String mNumber;
+
+    private volatile int mUpdatedCallLogsNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,7 +150,7 @@ public class ConfigActivity extends BaseActivity {
 
         // init db
         if (!mPrefs.getBoolean(BaseActivity.PREFERENCES_KEY_DB_INITIALIZED, false)) {
-            showProgressDialog();
+            showInitDbProgressDialog();
             new InitDbTask().execute();
         }
     }
@@ -131,14 +158,12 @@ public class ConfigActivity extends BaseActivity {
     @Override
     protected Dialog onCreateDialog(int id) {
         switch (id) {
-            case DIALOG_PROGRESS:
-                ProgressDialog dialog = new ProgressDialog(this);
-                dialog.setCancelable(false);
-                dialog.setMessage(getString(R.string.init_db_wait_msg));
-                return dialog;
-            case DIALOG_LOC_INFO:
-                return new AlertDialog.Builder(this).setTitle(R.string.callerloc).setMessage("")
-                        .create();
+            case DIALOG_PROGRESS_INIT_DB:
+            case DIALOG_PROGRESS_UPDATE_CALL_LOGS:
+                return createProgressDialog();
+            case DIALOG_ALERT_LOC_INFO:
+            case DIALOG_ALERT_UPDATED_CALL_LOGS_NUM:
+                return createAlertDialog();
             case DIALOG_ABOUT:
                 if (mAboutView == null) {
                     inflateAboutView();
@@ -154,17 +179,43 @@ public class ConfigActivity extends BaseActivity {
     @Override
     protected void onPrepareDialog(int id, Dialog dialog) {
         super.onPrepareDialog(id, dialog);
-        if (id == DIALOG_LOC_INFO) {
-            ((AlertDialog) dialog).setMessage(mNumber + "\n" + mLoc);
+        switch (id) {
+            case DIALOG_ALERT_LOC_INFO:
+                ((AlertDialog) dialog).setTitle(R.string.callerloc);
+                ((AlertDialog) dialog).setMessage(mNumber + "\n" + mLoc);
+                break;
+            case DIALOG_ALERT_UPDATED_CALL_LOGS_NUM:
+                ((AlertDialog) dialog).setTitle(R.string.refresh_calllogs);
+                ((AlertDialog) dialog).setMessage(getResources().getQuantityString(
+                        R.plurals.number_of_calllogs_updated, mUpdatedCallLogsNum,
+                        mUpdatedCallLogsNum));
+                break;
+            case DIALOG_PROGRESS_INIT_DB:
+                ((ProgressDialog) dialog).setMessage(getString(R.string.init_db_wait_msg));
+                break;
+            case DIALOG_PROGRESS_UPDATE_CALL_LOGS:
+                ((ProgressDialog) dialog).setMessage(getString(R.string.update_calllogs_wait_msg));
+                break;
         }
     }
 
-    private void showProgressDialog() {
-        showDialog(DIALOG_PROGRESS);
+    private Dialog createAlertDialog() {
+        return new AlertDialog.Builder(this).setTitle("").setMessage("").create();
     }
 
-    private void removeProgressDialog() {
-        removeDialog(DIALOG_PROGRESS);
+    private Dialog createProgressDialog() {
+        ProgressDialog dialog = new ProgressDialog(this);
+        dialog.setCancelable(false);
+        dialog.setMessage("");
+        return dialog;
+    }
+
+    private void showInitDbProgressDialog() {
+        showDialog(DIALOG_PROGRESS_INIT_DB);
+    }
+
+    private void removeInitDbProgressDialog() {
+        removeDialog(DIALOG_PROGRESS_INIT_DB);
     }
 
     private void inflateAboutView() {
@@ -188,7 +239,9 @@ public class ConfigActivity extends BaseActivity {
     }
 
     public void onRefreshCalllogsClicked(View v) {
-        // TODO:
+        showDialog(DIALOG_PROGRESS_UPDATE_CALL_LOGS);
+        mUpdatedCallLogsNum = 0;
+        new UpdateCallLogsTask().execute();
     }
 
     public void onAboutClicked(View v) {
@@ -204,7 +257,7 @@ public class ConfigActivity extends BaseActivity {
                 if (TextUtils.isEmpty(mLoc)) {
                     mLoc = getString(R.string.unknown_loc);
                 }
-                showDialog(DIALOG_LOC_INFO);
+                showDialog(DIALOG_ALERT_LOC_INFO);
             }
         }
         mQueryInputLayout.setVisibility(View.GONE);
@@ -230,6 +283,66 @@ public class ConfigActivity extends BaseActivity {
         } else {
             super.onBackPressed();
         }
+    }
+
+    private int updateCallLogs() {
+        int updatedCallLogsNum = 0;
+        ContentResolver cr = getContentResolver();
+        Cursor c = cr.query(CallLog.Calls.CONTENT_URI, CALL_LOGS_QUERY_PROJECTION, null, null,
+                CallLog.Calls.DEFAULT_SORT_ORDER);
+
+        HashMap<Integer, String> calls = new HashMap<Integer, String>();
+        if (c != null) {
+            try {
+                Log.d(TAG, "cursor count: " + c.getCount());
+                while (c.moveToNext()) {
+                    int id = (int) c.getLong(IDX_ID);
+                    String number = c.getString(IDX_NUMBER);
+                    String cachedName = c.getString(IDX_NAME);
+                    String label = c.getString(IDX_LABEL);
+                    if (!TextUtils.isEmpty(number) && TextUtils.isEmpty(cachedName)
+                            && TextUtils.isEmpty(label)) {
+                        calls.put(id, number);
+                    }
+                }
+            } finally {
+                c.close();
+            }
+        }
+
+        Log.d(TAG, "valid count: " + calls.size());
+
+        CallerlocRetriever retriever = CallerlocRetriever.getInstance();
+
+        if (retriever != null) {
+            Iterator<Integer> i = calls.keySet().iterator();
+            while (i.hasNext()) {
+                Integer id = i.next();
+                String number = calls.get(id);
+                updatedCallLogsNum += updateCallLog(retriever, cr, id, number);
+            }
+        }
+        return updatedCallLogsNum;
+    }
+
+    private int updateCallLog(CallerlocRetriever retriever, ContentResolver cr, int id,
+            String number) {
+        int updatedRowNum = 0;
+        String loc = retriever.retrieveCallerLocFromDb(this, number);
+        if (!TextUtils.isEmpty(loc)) {
+            ContentValues values = new ContentValues();
+            values.put(CallLog.Calls.CACHED_NUMBER_LABEL, loc);
+            updatedRowNum = cr.update(CallLog.Calls.CONTENT_URI, values,
+                    CALL_LOGS_UPDATE_SELECTION, new String[] {
+                        String.valueOf(id)
+                    });
+        }
+
+        if (LOG_ENABLED) {
+            Log.d(TAG, "updateCallLog -- id: " + id + ", number: " + number + ", loc: " + loc);
+        }
+
+        return updatedRowNum;
     }
 
     private class ColorSpinnerAdapter extends ArrayAdapter {
@@ -281,7 +394,24 @@ public class ConfigActivity extends BaseActivity {
         protected void onPostExecute(Object result) {
             mPrefs.edit().putBoolean(BaseActivity.PREFERENCES_KEY_DB_INITIALIZED, true).commit();
             Log.d(TAG, "init db finished");
-            removeProgressDialog();
+            removeInitDbProgressDialog();
+        }
+    }
+
+    private class UpdateCallLogsTask extends AsyncTask<Object, Object, Integer> {
+
+        @Override
+        protected Integer doInBackground(Object... params) {
+            Log.d(TAG, "UpdateCallLogsTask started");
+            return updateCallLogs();
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+            removeDialog(DIALOG_PROGRESS_UPDATE_CALL_LOGS);
+            mUpdatedCallLogsNum = result;
+            Log.d(TAG, "UpdateCallLogsTask ended, updated call logs count: " + result);
+            showDialog(DIALOG_ALERT_UPDATED_CALL_LOGS_NUM);
         }
     }
 }

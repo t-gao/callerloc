@@ -1,0 +1,31 @@
+04-23 01:35:03.241: D/ConfigActivity(12879): spinner initial position: 9
+04-23 01:35:03.631: D/ConfigActivity(12879): spinner position selected: 9
+04-23 01:35:27.104: D/ConfigActivity(12879): UpdateCallLogsTask started
+04-23 01:35:27.224: D/ConfigActivity(12879): cursor count: 500
+04-23 01:35:27.304: D/ConfigActivity(12879): valid count: 23
+04-23 01:35:27.505: D/ConfigActivity(12879): updateCallLog -- id: 137, number: 18347261687, loc: null
+04-23 01:35:27.505: D/ConfigActivity(12879): updateCallLog -- id: 373, number: 02895555, loc: null
+04-23 01:35:27.505: D/ConfigActivity(12879): updateCallLog -- id: 204, number: 4001028181, loc: null
+04-23 01:35:27.535: D/ConfigActivity(12879): updateCallLog -- id: 442, number: 14743978639, loc: null
+04-23 01:35:27.535: D/ConfigActivity(12879): updateCallLog -- id: 143, number: 1795115611936194, loc: null
+04-23 01:35:27.535: D/ConfigActivity(12879): updateCallLog -- id: 202, number: +8613518147424, loc: null
+04-23 01:35:27.575: D/ConfigActivity(12879): updateCallLog -- id: 110, number: 14718447764, loc: null
+04-23 01:35:27.595: D/ConfigActivity(12879): updateCallLog -- id: 313, number: 18008014282, loc: null
+04-23 01:35:27.595: D/ConfigActivity(12879): updateCallLog -- id: 196, number: 1795101082547179, loc: null
+04-23 01:35:27.595: D/ConfigActivity(12879): updateCallLog -- id: 108, number: 1795115833153671, loc: null
+04-23 01:35:27.595: D/ConfigActivity(12879): updateCallLog -- id: 199, number: +8613518147424, loc: null
+04-23 01:35:27.595: D/ConfigActivity(12879): updateCallLog -- id: 109, number: 1795115833153671, loc: null
+04-23 01:35:27.595: D/ConfigActivity(12879): updateCallLog -- id: 280, number: 02812121, loc: null
+04-23 01:35:27.625: D/ConfigActivity(12879): updateCallLog -- id: 469, number: 18665840710, loc: null
+04-23 01:35:27.625: D/ConfigActivity(12879): updateCallLog -- id: 436, number: 1795101057685565, loc: null
+04-23 01:35:27.645: D/ConfigActivity(12879): updateCallLog -- id: 356, number: 18600779512, loc: null
+04-23 01:35:27.655: D/ConfigActivity(12879): updateCallLog -- id: 290, number: 04007150053, loc: null
+04-23 01:35:27.655: D/ConfigActivity(12879): updateCallLog -- id: 257, number: 18008014282, loc: null
+04-23 01:35:27.685: D/ConfigActivity(12879): updateCallLog -- id: 460, number: 15771927947, loc: null
+04-23 01:35:27.685: D/ConfigActivity(12879): updateCallLog -- id: 454, number: 179511329505960, loc: null
+04-23 01:35:27.705: D/ConfigActivity(12879): updateCallLog -- id: 264, number: 18600835163, loc: null
+04-23 01:35:27.705: D/ConfigActivity(12879): updateCallLog -- id: 452, number: 1795101057685565, loc: null
+04-23 01:35:27.705: D/ConfigActivity(12879): updateCallLog -- id: 537, number: 1795118714115907, loc: null
+04-23 01:35:27.705: D/ConfigActivity(12879): UpdateCallLogsTask ended, updated call logs count: 0
+04-23 01:39:22.254: D/ConfigActivity(12879): spinner initial position: 9
+04-23 01:39:22.324: D/ConfigActivity(12879): spinner position selected: 9

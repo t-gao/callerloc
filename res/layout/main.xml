@@ -91,6 +91,7 @@
                 android:text="@string/refresh_calllogs"
                 android:textColor="@color/white"
                 android:textSize="16sp"
+                android:singleLine="true"
                 android:gravity="top" />
             <TextView
                 android:id="@+id/refresh_calllogs_detail"
@@ -101,6 +102,7 @@
                 android:text="@string/refresh_calllogs_detail"
                 android:textColor="@color/white"
                 android:textSize="12sp"
+                android:singleLine="true"
                 android:gravity="bottom" />
         </LinearLayout>
     </LinearLayout>
@@ -129,7 +131,7 @@
         android:layout_gravity="center_horizontal"
         android:gravity="center"
         android:layout_marginTop="30dp"
-        android:textSize="14sp"
+        android:textSize="13sp"
         android:textColor="@color/white"
         android:text="@string/config_info" />
 

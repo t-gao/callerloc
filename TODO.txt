@@ -1,14 +1,16 @@
-1. local database storage of location info -- Done
-2. another incoming call while there is a missed call and the floating is added and the AsyncTask has been run(crash) -- Done
-3. another incoming call while in a call -- won't fix
-4. init database in a background thread
-5. show floating window ON TOP OF screen lock view -- Done
-5. (NEW FEATURE)fixed-line telephone incoming call
-6. (NEW FEATURE)on click the missed call floating window, go to call history (optional)
-7. (NEW FEATURE)add location info to calllogs
+1. local database storage of location info -- DONE
+2. another incoming call while there is a missed call and the floating is added and the AsyncTask has been run(crash) -- DONE
+3. another incoming call while in a call -- won't fix in this version
+4. init database in a background thread -- DONE
+5. show floating window ON TOP OF screen lock view -- DONE
+5. (NEW FEATURE)fixed-line telephone incoming call -- ALMOST DONE(lack special numbers(e.g. 95533) support)
+6. (NEW FEATURE)on click the missed call floating window,
+     1) go to call history (optional)
+     2) update the calllog item (insert loc info to it)
+7. (NEW FEATURE)add location info to calllogs -- HALF DONE(See above)
 8. modify config activity UI to :
-    1) support input number and query location
-    2) add a progress bar while initialing database
-    3) add location info to calllogs
-    4) move about and version info to another page
+    1) support input number and query location -- DONE
+    2) add a progress bar while initialing database -- DONE
+    3) add location info to calllogs -- DONE
+    4) move about and version info to another page -- DONE (in a dialog)
 9. lack data of 180/183/part of 186

@@ -54,20 +54,19 @@ public class ConfigActivity extends BaseActivity {
 
     private static final String CALL_LOGS_UPDATE_SELECTION = CallLog.Calls._ID + "=?";
 
-    private static final String CALL_LOGS_QUERY_SELECTION = "(" + CallLog.Calls.CACHED_NAME
-            + " IS NULL OR " + CallLog.Calls.CACHED_NAME + "=?) AND ("
-            + CallLog.Calls.CACHED_NUMBER_LABEL + " IS NULL OR "
-            + CallLog.Calls.CACHED_NUMBER_LABEL + "=?)";
+//    private static final String CALL_LOGS_QUERY_SELECTION = "(" + CallLog.Calls.CACHED_NAME
+//            + " IS NULL OR " + CallLog.Calls.CACHED_NAME + "=?) AND ("
+//            + CallLog.Calls.CACHED_NUMBER_LABEL + " IS NULL OR "
+//            + CallLog.Calls.CACHED_NUMBER_LABEL + "=?)";
 
     private static final String[] CALL_LOGS_QUERY_PROJECTION = {
-            CallLog.Calls._ID, CallLog.Calls.NUMBER, CallLog.Calls.CACHED_NAME,
-            CallLog.Calls.CACHED_NUMBER_LABEL
+            CallLog.Calls._ID, CallLog.Calls.NUMBER, CallLog.Calls.CACHED_NAME
     };
 
     private static final int IDX_ID = 0;
     private static final int IDX_NUMBER = 1;
     private static final int IDX_NAME = 2;
-    private static final int IDX_LABEL = 3;
+//    private static final int IDX_LABEL = 3;
 
     private View mAboutView;
     private TextView mQueryTextView;
@@ -299,9 +298,8 @@ public class ConfigActivity extends BaseActivity {
                     int id = (int) c.getLong(IDX_ID);
                     String number = c.getString(IDX_NUMBER);
                     String cachedName = c.getString(IDX_NAME);
-                    String label = c.getString(IDX_LABEL);
-                    if (!TextUtils.isEmpty(number) && TextUtils.isEmpty(cachedName)
-                            && TextUtils.isEmpty(label)) {
+//                    String label = c.getString(IDX_LABEL);
+                    if (!TextUtils.isEmpty(number) && TextUtils.isEmpty(cachedName)) {
                         calls.put(id, number);
                     }
                 }
@@ -331,7 +329,9 @@ public class ConfigActivity extends BaseActivity {
         String loc = retriever.retrieveCallerLocFromDb(this, number);
         if (!TextUtils.isEmpty(loc)) {
             ContentValues values = new ContentValues();
-            values.put(CallLog.Calls.CACHED_NUMBER_LABEL, loc);
+            StringBuilder sb = new StringBuilder();
+            sb.append(loc).append("<").append(number).append(">");
+            values.put(CallLog.Calls.NUMBER, sb.toString());
             updatedRowNum = cr.update(CallLog.Calls.CONTENT_URI, values,
                     CALL_LOGS_UPDATE_SELECTION, new String[] {
                         String.valueOf(id)

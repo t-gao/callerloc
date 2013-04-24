@@ -3,10 +3,10 @@
 3. another incoming call while in a call -- won't fix in this version
 4. init database in a background thread -- DONE
 5. show floating window ON TOP OF screen lock view -- DONE
-5. (NEW FEATURE)fixed-line telephone incoming call -- ALMOST DONE(lack special numbers(e.g. 95533) support)
+5. (NEW FEATURE)fixed-line telephone incoming call -- ALMOST DONE(lack special numbers(e.g. 95533/400/800) support)
 6. (NEW FEATURE)on click the missed call floating window,
      1) go to call history (optional)
-     2) update the calllog item (insert loc info to it)
+     2) update the calllog item (insert loc info to it if it's a stranger call)
 7. (NEW FEATURE)add location info to calllogs -- HALF DONE(See above)
 8. modify config activity UI to :
     1) support input number and query location -- DONE

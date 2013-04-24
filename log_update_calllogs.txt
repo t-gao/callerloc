@@ -29,3 +29,9 @@
 04-23 01:35:27.705: D/ConfigActivity(12879): UpdateCallLogsTask ended, updated call logs count: 0
 04-23 01:39:22.254: D/ConfigActivity(12879): spinner initial position: 9
 04-23 01:39:22.324: D/ConfigActivity(12879): spinner position selected: 9
+
+移动：134、135、136、137、138、139、150、151、152、157(TD)、158、159、182、183、184、187、188、147（数据卡号段）
+
+联通：130、131、132、152、155、156、185、186
+
+电信：133、153、180、181、189、（1349卫通） 

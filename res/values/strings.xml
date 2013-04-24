@@ -20,6 +20,8 @@
 
     <string name="same_city">同城</string>
     <string name="city_beijing">北京市</string>
+    <string name="fzz">400电话</string>
+    <string name="ezz">800电话</string>
 
     <string name="incoming_call">来电</string>
     <string name="missed_call">已结束</string>

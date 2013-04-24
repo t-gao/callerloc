@@ -117,9 +117,9 @@ public class DbHandler {
                 if (number.length() > 4) {
                     // may be like 0400xxxxxxx or 0800xxxxxxx
                     if (number.startsWith("0400")) {
-                        return "400 电话";
+                        return mContext.getString(R.string.fzz);
                     } else if (number.startsWith("0800")) {
-                        return "800 电话";
+                        return mContext.getString(R.string.ezz);
                     }
                 }
 
@@ -137,9 +137,9 @@ public class DbHandler {
                 if (number.length() > 3) {
                     // may be like 400xxxxxxx or 800xxxxxxx
                     if (number.startsWith("400")) {
-                        return "400 电话";
+                        return mContext.getString(R.string.fzz);
                     } else if (number.startsWith("800")) {
-                        return "800 电话";
+                        return mContext.getString(R.string.ezz);
                     }
                 }
 
@@ -166,7 +166,7 @@ public class DbHandler {
                             if (TextUtils.isEmpty(province)) {
                                 loc = city;
                             } else {
-                                loc = province + " - " + city;
+                                loc = province + "-" + city;
                             }
                         }
                     } finally {
@@ -177,7 +177,7 @@ public class DbHandler {
         }
 
         if (specialSuffix != null) {
-            loc += specialSuffix;
+            loc += ("," + specialSuffix);
         }
         return loc;
     }

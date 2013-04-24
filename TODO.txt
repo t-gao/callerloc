@@ -3,7 +3,7 @@
 3. another incoming call while in a call -- won't fix in this version
 4. init database in a background thread -- DONE
 5. show floating window ON TOP OF screen lock view -- DONE
-5. (NEW FEATURE)fixed-line telephone incoming call -- ALMOST DONE(lack special numbers(e.g. 95533/400/800) support)
+5. (NEW FEATURE)fixed-line telephone incoming call -- DONE
 6. (NEW FEATURE)on click the missed call floating window,
      1) go to call history (optional)
      2) update the calllog item (insert loc info to it if it's a stranger call)
@@ -14,3 +14,5 @@
     3) add location info to calllogs -- DONE
     4) move about and version info to another page -- DONE (in a dialog)
 9. lack data of 147/180/181/183/185/part of 186
+10. show floating window for outgoing call, add corresponding toggle button
+11. add operator info

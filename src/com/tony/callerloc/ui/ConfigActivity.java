@@ -27,6 +27,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
@@ -54,10 +55,11 @@ public class ConfigActivity extends BaseActivity {
 
     private static final String CALL_LOGS_UPDATE_SELECTION = CallLog.Calls._ID + "=?";
 
-//    private static final String CALL_LOGS_QUERY_SELECTION = "(" + CallLog.Calls.CACHED_NAME
-//            + " IS NULL OR " + CallLog.Calls.CACHED_NAME + "=?) AND ("
-//            + CallLog.Calls.CACHED_NUMBER_LABEL + " IS NULL OR "
-//            + CallLog.Calls.CACHED_NUMBER_LABEL + "=?)";
+    // private static final String CALL_LOGS_QUERY_SELECTION = "(" +
+    // CallLog.Calls.CACHED_NAME
+    // + " IS NULL OR " + CallLog.Calls.CACHED_NAME + "=?) AND ("
+    // + CallLog.Calls.CACHED_NUMBER_LABEL + " IS NULL OR "
+    // + CallLog.Calls.CACHED_NUMBER_LABEL + "=?)";
 
     private static final String[] CALL_LOGS_QUERY_PROJECTION = {
             CallLog.Calls._ID, CallLog.Calls.NUMBER, CallLog.Calls.CACHED_NAME
@@ -66,13 +68,14 @@ public class ConfigActivity extends BaseActivity {
     private static final int IDX_ID = 0;
     private static final int IDX_NUMBER = 1;
     private static final int IDX_NAME = 2;
-//    private static final int IDX_LABEL = 3;
+    // private static final int IDX_LABEL = 3;
 
     private View mAboutView;
     private TextView mQueryTextView;
     private LinearLayout mQueryInputLayout;
     private EditText mQueryInputEditText;
     private ToggleButton mEnableBtn;
+    private CheckBox mUpdateCalllogCheck;
     private Spinner mSelectColorSpinner;
     private String[] mColors;
 
@@ -100,6 +103,20 @@ public class ConfigActivity extends BaseActivity {
                     return true;
                 }
                 return false;
+            }
+        });
+
+        mUpdateCalllogCheck = (CheckBox) findViewById(R.id.update_calllogs_check);
+        mUpdateCalllogCheck.setChecked(mPrefs.getBoolean(PREFERENCES_KEY_UPDATE_CALL_LOG_ENABLED,
+                false));
+
+        mUpdateCalllogCheck.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Log.d(TAG, "mUpdateCalllogCheck onCheckedChanged, isChecked: " + isChecked);
+                mPrefs.edit().putBoolean(PREFERENCES_KEY_UPDATE_CALL_LOG_ENABLED, isChecked)
+                        .commit();
             }
         });
 
@@ -237,10 +254,28 @@ public class ConfigActivity extends BaseActivity {
         queryLocation();
     }
 
-    public void onRefreshCalllogsClicked(View v) {
+    public void onUpdateCalllogsCheckClicked(View v) {
+        Log.d(TAG, "onUpdateCalllogsCheckClicked");
         showDialog(DIALOG_PROGRESS_UPDATE_CALL_LOGS);
         mUpdatedCallLogsNum = 0;
-        new UpdateCallLogsTask().execute();
+
+        // this enabled state is already toggled by the clicked, and so is the
+        // prefs
+        boolean enabled = mPrefs.getBoolean(PREFERENCES_KEY_UPDATE_CALL_LOG_ENABLED, false);
+        new UpdateCallLogsTask().execute(Boolean.valueOf(enabled));
+    }
+
+    public void onUpdateCalllogsClicked(View v) {
+        Log.d(TAG, "onUpdateCalllogsClicked");
+        showDialog(DIALOG_PROGRESS_UPDATE_CALL_LOGS);
+        mUpdatedCallLogsNum = 0;
+        boolean enabled = mPrefs.getBoolean(PREFERENCES_KEY_UPDATE_CALL_LOG_ENABLED, false);
+
+        // toggle checked state, the onCheckedStatedChangedListener will handle
+        // the updating of the prefs
+        mUpdateCalllogCheck.setChecked(!enabled);
+
+        new UpdateCallLogsTask().execute(Boolean.valueOf(!enabled));
     }
 
     public void onAboutClicked(View v) {
@@ -284,7 +319,12 @@ public class ConfigActivity extends BaseActivity {
         }
     }
 
-    private int updateCallLogs() {
+    /**
+     * @param insert true to insert loc info to calllogs; false to erase from
+     * @return updated calllogs count
+     */
+    private int updateCallLogs(boolean insert) {
+        Log.d(TAG, "updateCallLogs, insert: " + insert);
         int updatedCallLogsNum = 0;
         ContentResolver cr = getContentResolver();
         Cursor c = cr.query(CallLog.Calls.CONTENT_URI, CALL_LOGS_QUERY_PROJECTION, null, null,
@@ -298,9 +338,15 @@ public class ConfigActivity extends BaseActivity {
                     int id = (int) c.getLong(IDX_ID);
                     String number = c.getString(IDX_NUMBER);
                     String cachedName = c.getString(IDX_NAME);
-//                    String label = c.getString(IDX_LABEL);
-                    if (!TextUtils.isEmpty(number) && TextUtils.isEmpty(cachedName)) {
-                        calls.put(id, number);
+                    // String label = c.getString(IDX_LABEL);
+                    if (!TextUtils.isEmpty(number)) {
+                        if (insert) {
+                            if (TextUtils.isEmpty(cachedName)) {
+                                calls.put(id, number);
+                            }
+                        } else if (number.contains("<") && number.contains(">")) {
+                            calls.put(id, number);
+                        }
                     }
                 }
             } finally {
@@ -317,30 +363,44 @@ public class ConfigActivity extends BaseActivity {
             while (i.hasNext()) {
                 Integer id = i.next();
                 String number = calls.get(id);
-                updatedCallLogsNum += updateCallLog(retriever, cr, id, number);
+                updatedCallLogsNum += updateCallLog(retriever, cr, id, number, insert);
             }
         }
         return updatedCallLogsNum;
     }
 
+    /**
+     * @param insert true to insert loc info to the calllog; false to erase from
+     * @return updated rows
+     */
     private int updateCallLog(CallerlocRetriever retriever, ContentResolver cr, int id,
-            String number) {
+            String number, boolean insert) {
         int updatedRowNum = 0;
-        String loc = retriever.retrieveCallerLocFromDb(this, number);
-        if (!TextUtils.isEmpty(loc)) {
-            ContentValues values = new ContentValues();
-            StringBuilder sb = new StringBuilder();
-            sb.append(loc).append("<").append(number).append(">");
-            values.put(CallLog.Calls.NUMBER, sb.toString());
+        ContentValues values = new ContentValues();
+        String updatedNumber = null;
+        if (insert) {
+            String loc = retriever.retrieveCallerLocFromDb(this, number);
+            if (!TextUtils.isEmpty(loc)) {
+                StringBuilder sb = new StringBuilder();
+                sb.append(loc).append("<").append(number).append(">");
+                updatedNumber = sb.toString();
+            }
+        } else {
+            updatedNumber = number.substring(number.indexOf("<") + 1, number.indexOf(">"));
+        }
+
+        if (updatedNumber != null) {
+            values.put(CallLog.Calls.NUMBER, updatedNumber);
             updatedRowNum = cr.update(CallLog.Calls.CONTENT_URI, values,
                     CALL_LOGS_UPDATE_SELECTION, new String[] {
                         String.valueOf(id)
                     });
         }
 
-        if (LOG_ENABLED) {
-            Log.d(TAG, "updateCallLog -- id: " + id + ", number: " + number + ", loc: " + loc);
-        }
+//        if (LOG_ENABLED) {
+//            Log.d(TAG, "updateCallLog -- id: " + id + ", number: " + number + ", updated: "
+//                    + updatedNumber);
+//        }
 
         return updatedRowNum;
     }
@@ -398,12 +458,13 @@ public class ConfigActivity extends BaseActivity {
         }
     }
 
-    private class UpdateCallLogsTask extends AsyncTask<Object, Object, Integer> {
+    private class UpdateCallLogsTask extends AsyncTask<Boolean, Object, Integer> {
 
         @Override
-        protected Integer doInBackground(Object... params) {
-            Log.d(TAG, "UpdateCallLogsTask started");
-            return updateCallLogs();
+        protected Integer doInBackground(Boolean... params) {
+            boolean insert = params[0];
+            Log.d(TAG, "UpdateCallLogsTask started, insert:" + insert);
+            return updateCallLogs(insert);
         }
 
         @Override

@@ -1,15 +1,12 @@
 
 package com.tony.callerloc;
 
-import java.io.IOException;
-
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
-import com.tony.callerloc.db.DatabaseInitializer;
 import com.tony.callerloc.ui.BaseActivity;
 
 /**

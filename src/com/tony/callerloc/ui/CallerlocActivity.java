@@ -21,7 +21,10 @@ import com.tony.callerloc.services.CallAnswerService;
 
 /**
  * @author Tony.Gao
+ *
+ * @deprecated not in use currently, using floating window instead
  */
+@Deprecated
 public class CallerlocActivity extends BaseActivity {
 
     private static final String TAG = "CallerlocActivity";

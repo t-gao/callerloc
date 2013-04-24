@@ -16,9 +16,10 @@ public class BaseActivity extends Activity {
     public static final boolean LOG_ENABLED = true;
 
     public static final String PREFERENCES_NAME = "com.tony.callerloc";
-    public static final String PREFERENCES_KEY_APP_ENABLED = "prefs_key_app_enabled";
-    public static final String PREFERENCES_KEY_TEXT_COLOR_POS = "prefs_key_txt_color";
-    public static final String PREFERENCES_KEY_DB_INITIALIZED = "prefs_key_db_initialized";
+    public static final String PREFERENCES_KEY_APP_ENABLED = "key_app_enabled";
+    public static final String PREFERENCES_KEY_UPDATE_CALL_LOG_ENABLED = "key_update_call_log_enabled";
+    public static final String PREFERENCES_KEY_TEXT_COLOR_POS = "key_txt_color";
+    public static final String PREFERENCES_KEY_DB_INITIALIZED = "key_db_initialized";
 
     public static final int DEFAULT_COLOR_POS = 9;// deep blue
 

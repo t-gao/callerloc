@@ -69,7 +69,7 @@
         android:layout_marginTop="5dp"
         android:background="@drawable/bg_black"
         android:clickable="true"
-        android:onClick="onRefreshCalllogsClicked"
+        android:onClick="onUpdateCalllogsClicked"
         android:orientation="horizontal" >
         <ImageView
             android:layout_width="wrap_content"
@@ -105,6 +105,15 @@
                 android:singleLine="true"
                 android:gravity="bottom" />
         </LinearLayout>
+        <CheckBox
+            android:id="@+id/update_calllogs_check"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginRight="2dp"
+            android:onClick="onUpdateCalllogsCheckClicked"
+            android:saveEnabled="true"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical" />
     </LinearLayout>
 
     <TextView

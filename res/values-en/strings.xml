@@ -11,10 +11,10 @@
     <string name="app_enabled">App in use</string>
     <string name="app_disabled">App not in use</string>
     <string name="select_txt_colr">Select text color</string>
-    <string name="input_to_query">Input a number to query it\'s location</string>
+    <string name="input_to_query">Input a number to query its location</string>
     <string name="input_number">Input a number</string>
-    <string name="refresh_calllogs">Refresh call logs</string>
-    <string name="refresh_calllogs_detail">Insert location info to call logs of strange numbers</string>
+    <string name="refresh_calllogs">Update call logs</string>
+    <string name="refresh_calllogs_detail">Insert location info to stranger call logs</string>
     <string name="about">About</string>
     <string name="same_city">Same city</string>
     <string name="city_beijing">Beijing</string>

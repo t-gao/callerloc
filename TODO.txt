@@ -13,4 +13,4 @@
     2) add a progress bar while initialing database -- DONE
     3) add location info to calllogs -- DONE
     4) move about and version info to another page -- DONE (in a dialog)
-9. lack data of 180/183/part of 186
+9. lack data of 147/180/181/183/185/part of 186

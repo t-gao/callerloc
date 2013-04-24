@@ -13,9 +13,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.tony.callerloc.R;
 import com.tony.callerloc.db.DbHandler;
 import com.tony.callerloc.ui.BaseActivity;
 
@@ -47,8 +49,7 @@ public class CallerlocRetriever {
     public static final int NUM_TYPE_FIXEDLINE = 2;
     public static final int NUM_TYPE_FIXEDLINE_NO_AREA_CODE = 3;
 
-    //TODO: Other operators
-    private static final String IP_PREFIX_CHINA_MOBILE = "17951";
+    private static final String IP_PREFIX = "179";
 
     private static volatile CallerlocRetriever mInstance = new CallerlocRetriever();
 
@@ -63,7 +64,7 @@ public class CallerlocRetriever {
         String ret = number;
 
         if (ret != null) {
-            if (ret.length() >= 16 && ret.startsWith(IP_PREFIX_CHINA_MOBILE)) {
+            if (ret.length() >= 16 && ret.startsWith(IP_PREFIX)) {
                 ret = ret.substring(5);
             }
             if (ret.startsWith("+86")) {
@@ -78,12 +79,12 @@ public class CallerlocRetriever {
 
     private int getTypeOfNumber(String number) {
         int type = NUM_TYPE_INVALID;
-        if (number != null && numberPattern.matcher(number).matches()) {
+        if (number != null && number.length() > 2 && numberPattern.matcher(number).matches()) {
             if (number.startsWith("1") && number.length() == 11) {
                 type = NUM_TYPE_MOBILE;
             } else if (number.startsWith("0")) {
                 type = NUM_TYPE_FIXEDLINE;
-            } else if (!number.startsWith("0") && number.length() <= 8){
+            } else if (!number.startsWith("0")){
                 type = NUM_TYPE_FIXEDLINE_NO_AREA_CODE;
             }
         }
@@ -124,6 +125,11 @@ public class CallerlocRetriever {
         }
         NumLoc numLoc = parseJson(preProcess(result));
         return numLoc.location;
+    }
+
+    public String getSpecial(String key) {
+        // TODO keep in a Hashtable
+        return null;
     }
 
     private String searchByURLConnection(String urlBase, String target, String encoding) {

@@ -93,6 +93,7 @@ public class DbHandler {
 
     public String queryLoc(String number, int type) {
         String loc = null;
+        String specialSuffix = null;
         if (type == CallerlocRetriever.NUM_TYPE_INVALID) {
             return null;
         }
@@ -112,11 +113,40 @@ public class DbHandler {
         } else {
             int areacode = -1;
             if (type == CallerlocRetriever.NUM_TYPE_FIXEDLINE) {
+
+                if (number.length() > 4) {
+                    // may be like 0400xxxxxxx or 0800xxxxxxx
+                    if (number.startsWith("0400")) {
+                        return "400 电话";
+                    } else if (number.startsWith("0800")) {
+                        return "800 电话";
+                    }
+                }
+
                 if (number.startsWith("010")) {
                     return mContext.getString(R.string.city_beijing);
+                } else if (number.startsWith("02")) {
+                    specialSuffix = getSpecial(number.substring(3));
+                    areacode = Integer.valueOf(number.substring(0, 3));
+                } else {
+                    specialSuffix = getSpecial(number.substring(4));
+                    areacode = Integer.valueOf(number.substring(0, 4));
                 }
             } else if (type == CallerlocRetriever.NUM_TYPE_FIXEDLINE_NO_AREA_CODE) {
-                // TODO: check if it is a special number like "95555"
+
+                if (number.length() > 3) {
+                    // may be like 400xxxxxxx or 800xxxxxxx
+                    if (number.startsWith("400")) {
+                        return "400 电话";
+                    } else if (number.startsWith("800")) {
+                        return "800 电话";
+                    }
+                }
+
+                String special = getSpecial(number);
+                if (special != null) {
+                    return special;
+                }
 
                 // TODO: read my city areacode from setting
                 // areacode = readMyCityAreaCode();
@@ -124,12 +154,6 @@ public class DbHandler {
                     // failed to read same city areacode, return "same city"
                     return mContext.getString(R.string.same_city);
                 }
-            }
-
-            if (number.startsWith("02")) {
-                areacode = Integer.valueOf(number.substring(0, 3));
-            } else {
-                areacode = Integer.valueOf(number.substring(0, 4));
             }
 
             if (areacode != -1) {
@@ -151,6 +175,15 @@ public class DbHandler {
                 }
             }
         }
+
+        if (specialSuffix != null) {
+            loc += specialSuffix;
+        }
         return loc;
+    }
+
+    private String getSpecial(String key) {
+        CallerlocRetriever cr = CallerlocRetriever.getInstance();
+        return cr == null ? null : cr.getSpecial(key);
     }
 }

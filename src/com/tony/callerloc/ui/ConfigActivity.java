@@ -74,7 +74,8 @@ public class ConfigActivity extends BaseActivity {
     private TextView mQueryTextView;
     private LinearLayout mQueryInputLayout;
     private EditText mQueryInputEditText;
-    private ToggleButton mEnableBtn;
+    private ToggleButton mEnableInBtn;
+    private ToggleButton mEnableOutBtn;
     private CheckBox mUpdateCalllogCheck;
     private Spinner mSelectColorSpinner;
     private String[] mColors;
@@ -120,14 +121,25 @@ public class ConfigActivity extends BaseActivity {
             }
         });
 
-        mEnableBtn = (ToggleButton) findViewById(R.id.enable);
-        mEnableBtn.setChecked(mPrefs.getBoolean(PREFERENCES_KEY_APP_ENABLED, false));
+        mEnableInBtn = (ToggleButton) findViewById(R.id.enable_incoming);
+        mEnableInBtn.setChecked(mPrefs.getBoolean(PREFERENCES_KEY_INCOMING_ENABLED, false));
 
-        mEnableBtn.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+        mEnableInBtn.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                mPrefs.edit().putBoolean(PREFERENCES_KEY_APP_ENABLED, isChecked).commit();
+                mPrefs.edit().putBoolean(PREFERENCES_KEY_INCOMING_ENABLED, isChecked).commit();
+            }
+        });
+
+        mEnableOutBtn = (ToggleButton) findViewById(R.id.enable_outgoing);
+        mEnableOutBtn.setChecked(mPrefs.getBoolean(PREFERENCES_KEY_OUTGOING_ENABLED, false));
+
+        mEnableOutBtn.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mPrefs.edit().putBoolean(PREFERENCES_KEY_OUTGOING_ENABLED, isChecked).commit();
             }
         });
 

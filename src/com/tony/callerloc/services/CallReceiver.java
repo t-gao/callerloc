@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
@@ -18,10 +17,15 @@ import com.tony.callerloc.ui.BaseActivity;
 public class CallReceiver extends BroadcastReceiver {
 
     private static final String TAG = "CallReceiver";
-    private static final long INCOMING_CALL_DELAY = 1600;// milliseconds
+
+    // private static final long INCOMING_CALL_DELAY = 1600;// milliseconds
 
     @Override
     public void onReceive(final Context context, Intent intent) {
+
+        if (intent == null) {
+            return;
+        }
 
         SharedPreferences prefs = context.getSharedPreferences(BaseActivity.PREFERENCES_NAME,
                 Context.MODE_PRIVATE);
@@ -40,76 +44,80 @@ public class CallReceiver extends BroadcastReceiver {
             return;
         }
 
-        if (!prefs.getBoolean(BaseActivity.PREFERENCES_KEY_APP_ENABLED, false)) {
+        boolean inEnabled = prefs.getBoolean(BaseActivity.PREFERENCES_KEY_INCOMING_ENABLED, false);
+        boolean outEnabled = prefs.getBoolean(BaseActivity.PREFERENCES_KEY_OUTGOING_ENABLED, false);
+
+        // 1
+        // FIXME: This doesn't work, action is always
+        // android.intent.action.PHONE_STATE not matter incoming or outgoing or
+        // idle
+        if (intent.getAction().equals(Intent.ACTION_NEW_OUTGOING_CALL)) {
+            String phoneNumber = intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER);
             if (BaseActivity.LOG_ENABLED) {
-                Log.d(TAG, "app disabled, exiting!");
+                Log.d(TAG, "outgoing call broadcast received, number:" + phoneNumber);
             }
-            return;
-        }
+        } else {
+            TelephonyManager tm = (TelephonyManager) context
+                    .getSystemService(Context.TELEPHONY_SERVICE);
+            int callState = tm.getCallState();
 
-        if (intent == null) {
-            return;
-        }
-
-        Bundle extras = intent.getExtras();
-        if (extras == null) {
-            return;
-        }
-
-        String state = extras.getString(TelephonyManager.EXTRA_STATE);
-        final String number = extras.getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
-
-        if (state != null) {
             if (BaseActivity.LOG_ENABLED) {
-                Log.d(TAG, "broadcast received, call state: " + state);
+                Log.d(TAG, "broadcast received, call state: " + callState);
             }
 
             Intent i = new Intent(context, CallAnswerService.class);
-            if (state.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
-                if (BaseActivity.LOG_ENABLED) {
-                    Log.d(TAG, "incoming call Broadcast received");
-                }
-                i.putExtra(CallAnswerService.EXTRA_START_DELAY, INCOMING_CALL_DELAY);
-                i.putExtra(TelephonyManager.EXTRA_INCOMING_NUMBER, number);
-                if (BaseActivity.LOG_ENABLED) {
-                    Log.d(TAG, "CallAnswerService started");
-                }
-            } else if (state.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
-                if (BaseActivity.LOG_ENABLED) {
-                    Log.d(TAG, "call hungup Broadcast received");
-                }
+            switch (callState) {
+                case TelephonyManager.CALL_STATE_RINGING:
+                    if (!inEnabled) {
+                        return;
+                    }
+                    String number = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
+                    i.putExtra(TelephonyManager.EXTRA_INCOMING_NUMBER, number);
+                    break;
+                case TelephonyManager.CALL_STATE_IDLE:
+                    if (!inEnabled && !outEnabled) {
+                        return;
+                    } else {
+                        // do nothing
+                    }
+                    break;
             }
             context.startService(i);
         }
 
-        // Handler callActionHandler = new Handler();
-        //
-        // Runnable runRingingActivity = new Runnable() {
-        // @Override
-        // public void run() {
-        // Intent intent = new Intent(Intent.ACTION_ANSWER);
-        // intent.putExtra(TelephonyManager.EXTRA_INCOMING_NUMBER, number);
-        // intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        // context.startActivity(intent);
-        // }
-        // };
-        //
-        // String action = intent.getAction();
-        // if (action != null && action.equals(Intent.ACTION_NEW_OUTGOING_CALL))
-        // {
-        // Log.d(TAG, "OUTGOING CALL");
-        // } else {
-        // Log.d(TAG, "INCOMING CALL");
-        // if (!TextUtils.isEmpty(state) &&
-        // state.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
-        // callActionHandler.postDelayed(runRingingActivity,
-        // INCOMING_CALL_DELAY);
-        // }
-        // }
-        //
-        // if (TextUtils.isEmpty(state) ||
-        // !state.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
-        // callActionHandler.removeCallbacks(runRingingActivity);
-        // }
+//        // 2
+//        Bundle extras = intent.getExtras();
+//        if (extras == null) {
+//            return;
+//        }
+//
+//        String state = extras.getString(TelephonyManager.EXTRA_STATE);
+//        String number = extras.getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
+//
+//        if (state != null) {
+//            if (BaseActivity.LOG_ENABLED) {
+//                Log.d(TAG, "broadcast received, call state: " + state + ", number: " + number);
+//            }
+//
+//            Intent i = new Intent(context, CallAnswerService.class);
+//            if (state.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
+//
+//                if (!prefs.getBoolean(BaseActivity.PREFERENCES_KEY_INCOMING_ENABLED, false)) {
+//                    if (BaseActivity.LOG_ENABLED) {
+//                        Log.d(TAG, "app disabled, exiting!");
+//                    }
+//                    return;
+//                }
+//
+//                // i.putExtra(CallAnswerService.EXTRA_START_DELAY,
+//                // INCOMING_CALL_DELAY);
+//                i.putExtra(TelephonyManager.EXTRA_INCOMING_NUMBER, number);
+//
+//            } else if (state.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
+//                // do nothing
+//            }
+//            context.startService(i);
+//        }
+
     }
 }

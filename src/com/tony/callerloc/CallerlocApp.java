@@ -28,8 +28,8 @@ public class CallerlocApp extends Application {
 
         SharedPreferences prefs = getSharedPreferences(BaseActivity.PREFERENCES_NAME, MODE_PRIVATE);
 
-        // Enable app
-        prefs.edit().putBoolean(BaseActivity.PREFERENCES_KEY_APP_ENABLED, true).commit();
+        // Enable show floating window for incoming calls
+        prefs.edit().putBoolean(BaseActivity.PREFERENCES_KEY_INCOMING_ENABLED, true).commit();
 
         int colorPos = prefs.getInt(BaseActivity.PREFERENCES_KEY_TEXT_COLOR_POS,
                 BaseActivity.DEFAULT_COLOR_POS);

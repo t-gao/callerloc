@@ -24,7 +24,8 @@
     <string name="ezz">800电话</string>
 
     <string name="incoming_call">来电</string>
-    <string name="missed_call">已结束</string>
+    <string name="outgoing_call">去电</string>
+    <string name="ended_call">已结束</string>
 
     <string name="color_name_white">白色</string>
     <string name="color_name_black">黑色</string>

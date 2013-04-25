@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
+import com.tony.callerloc.db.DatabaseInitializer;
 import com.tony.callerloc.ui.BaseActivity;
 
 /**
@@ -47,6 +48,8 @@ public class CallerlocApp extends Application {
                 mCurrentCallState = t.getCallState();
             }
         }
+
+        new DatabaseInitializer(getApplicationContext()).initSpecialNums();
     }
 
     int getColorIdByPosition(int position) {

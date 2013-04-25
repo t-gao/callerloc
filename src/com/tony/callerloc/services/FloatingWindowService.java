@@ -33,7 +33,7 @@ public class FloatingWindowService extends Service {
     WindowManager wm = null;
     WindowManager.LayoutParams wmParams = null;
 
-    private int mCallState = -1;
+    private int mActionType;
     private String mLastNumber;
     private String mNumber;
     private String mLoc;
@@ -87,8 +87,8 @@ public class FloatingWindowService extends Service {
 
         getExtraFromIntent(intent);
         // TODO: incoming call while in a call?
-        if (mCallState != CallAnswerService.CALL_STATE_MISSED && mNumber != null
-                && !mNumber.equals(mLastNumber)) {
+        if ((mActionType == CallAnswerService.ACTION_TYPE_IN || mActionType == CallAnswerService.ACTION_TYPE_OUT)
+                && mNumber != null && !mNumber.equals(mLastNumber)) {
             try {
                 if (mRetrieveTask != null && mRetrieveTask.getStatus() != AsyncTask.Status.FINISHED) {
                     mRetrieveTask.cancel(true);
@@ -104,16 +104,21 @@ public class FloatingWindowService extends Service {
     }
 
     private void setTextViews() {
-        if (mCallState == CallAnswerService.CALL_STATE_MISSED) {
+        if (mActionType == CallAnswerService.ACTION_TYPE_END) {
             if (mLabelView != null) {
-                mLabelView.setText(R.string.missed_call);
+                mLabelView.setText(R.string.ended_call);
             }
         } else {
-            if (mLabelView != null) {
-                mLabelView.setText(R.string.incoming_call);
-            }
             if (mNumberView != null) {
                 mNumberView.setText(mNumber);
+            }
+
+            if (mLabelView != null) {
+                if (mActionType == CallAnswerService.ACTION_TYPE_IN) {
+                    mLabelView.setText(R.string.incoming_call);
+                } else if (mActionType == CallAnswerService.ACTION_TYPE_OUT) {
+                    mLabelView.setText(R.string.outgoing_call);
+                }
             }
             // if (mLocView != null) {
             // mLocView.setText(mLoc);
@@ -124,7 +129,7 @@ public class FloatingWindowService extends Service {
     private void getExtraFromIntent(Intent i) {
         mLastNumber = mNumber;
         if (i != null) {
-            mCallState = i.getExtras().getInt(CallAnswerService.EXTRA_CALL_STATE, -1);
+            mActionType = i.getExtras().getInt(CallAnswerService.EXTRA_ACTION_TYPE, CallAnswerService.ACTION_TYPE_NONE);
             mNumber = i.getExtras().getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
             mLoc = i.getExtras().getString(CallAnswerService.EXTRA_LOC);
         }
@@ -196,7 +201,7 @@ public class FloatingWindowService extends Service {
                             Log.d(TAG, "action up, dx: , dy: " + dx + " " + dy);
                         }
 
-                        if (mCallState == CallAnswerService.CALL_STATE_MISSED) {
+                        if (mActionType == CallAnswerService.ACTION_TYPE_END) {
                             // if it's click
                             if (Math.abs(dx) < 3 && Math.abs(dy) < 3 /* && mFloating != null */) {
                                 //TODO: goto call history page (optional)

@@ -55,12 +55,6 @@ public class ConfigActivity extends BaseActivity {
 
     private static final String CALL_LOGS_UPDATE_SELECTION = CallLog.Calls._ID + "=?";
 
-    // private static final String CALL_LOGS_QUERY_SELECTION = "(" +
-    // CallLog.Calls.CACHED_NAME
-    // + " IS NULL OR " + CallLog.Calls.CACHED_NAME + "=?) AND ("
-    // + CallLog.Calls.CACHED_NUMBER_LABEL + " IS NULL OR "
-    // + CallLog.Calls.CACHED_NUMBER_LABEL + "=?)";
-
     private static final String[] CALL_LOGS_QUERY_PROJECTION = {
             CallLog.Calls._ID, CallLog.Calls.NUMBER, CallLog.Calls.CACHED_NAME
     };
@@ -68,7 +62,6 @@ public class ConfigActivity extends BaseActivity {
     private static final int IDX_ID = 0;
     private static final int IDX_NUMBER = 1;
     private static final int IDX_NAME = 2;
-    // private static final int IDX_LABEL = 3;
 
     private View mAboutView;
     private TextView mQueryTextView;
@@ -271,8 +264,7 @@ public class ConfigActivity extends BaseActivity {
         showDialog(DIALOG_PROGRESS_UPDATE_CALL_LOGS);
         mUpdatedCallLogsNum = 0;
 
-        // this enabled state is already toggled by the clicked, and so is the
-        // prefs
+        // this enabled state is already toggled by the clicked, and so is the prefs
         boolean enabled = mPrefs.getBoolean(PREFERENCES_KEY_UPDATE_CALL_LOG_ENABLED, false);
         new UpdateCallLogsTask().execute(Boolean.valueOf(enabled));
     }
@@ -455,9 +447,7 @@ public class ConfigActivity extends BaseActivity {
         @Override
         protected Object doInBackground(Object... params) {
             try {
-                DatabaseInitializer dbIniter = new DatabaseInitializer(getApplicationContext());
-                dbIniter.initDataBase();
-                dbIniter.initSpecialNums();
+                new DatabaseInitializer(getApplicationContext()).initDataBase();
             } catch (IOException e) {
                 Log.e(TAG, "Init database error: ", e);
             }

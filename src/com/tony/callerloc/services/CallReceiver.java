@@ -47,18 +47,34 @@ public class CallReceiver extends BroadcastReceiver {
         boolean inEnabled = prefs.getBoolean(BaseActivity.PREFERENCES_KEY_INCOMING_ENABLED, false);
         boolean outEnabled = prefs.getBoolean(BaseActivity.PREFERENCES_KEY_OUTGOING_ENABLED, false);
 
-        // 1
-        // FIXME: This doesn't work, action is always
-        // android.intent.action.PHONE_STATE not matter incoming or outgoing or
-        // idle
+        TelephonyManager tm = (TelephonyManager) context
+                .getSystemService(Context.TELEPHONY_SERVICE);
+
+        if (BaseActivity.LOG_ENABLED) {
+            Log.d(TAG,
+                    "onreceive, action: " + intent.getAction() + "; callState: "
+                            + tm.getCallState());
+        }
+
+        // Note: An outgoing call fires this receiver twice for two actions:
+        // once for "android.intent.action.NEW_OUTGOING_CALL" with call state 0
+        // and then once for "android.intent.action.PHONE_STATE" with call state 2
+        // TODO: Will there be a third time when this outgoing call is answered?
         if (intent.getAction().equals(Intent.ACTION_NEW_OUTGOING_CALL)) {
+            if (!outEnabled) {
+                return;
+            }
             String phoneNumber = intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER);
             if (BaseActivity.LOG_ENABLED) {
-                Log.d(TAG, "outgoing call broadcast received, number:" + phoneNumber);
+                Log.d(TAG, "outgoing call broadcast received, number:" + phoneNumber
+                        + "; callState: " + tm.getCallState());
             }
+
+            Intent i = new Intent(context, CallAnswerService.class);
+            i.putExtra(Intent.EXTRA_PHONE_NUMBER, phoneNumber);
+            i.putExtra(CallAnswerService.EXTRA_ACTION_TYPE, CallAnswerService.ACTION_TYPE_OUT);
+            context.startService(i);
         } else {
-            TelephonyManager tm = (TelephonyManager) context
-                    .getSystemService(Context.TELEPHONY_SERVICE);
             int callState = tm.getCallState();
 
             if (BaseActivity.LOG_ENABLED) {
@@ -72,15 +88,17 @@ public class CallReceiver extends BroadcastReceiver {
                         return;
                     }
                     String number = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
-                    i.putExtra(TelephonyManager.EXTRA_INCOMING_NUMBER, number);
+                    i.putExtra(Intent.EXTRA_PHONE_NUMBER, number);
+                    i.putExtra(CallAnswerService.EXTRA_ACTION_TYPE, CallAnswerService.ACTION_TYPE_IN);
                     break;
                 case TelephonyManager.CALL_STATE_IDLE:
                     if (!inEnabled && !outEnabled) {
                         return;
-                    } else {
-                        // do nothing
                     }
+                    i.putExtra(CallAnswerService.EXTRA_ACTION_TYPE, CallAnswerService.ACTION_TYPE_END);
                     break;
+                default:
+                    return; // return to not start the service
             }
             context.startService(i);
         }

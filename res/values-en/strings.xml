@@ -23,7 +23,8 @@
     <string name="ezz">An 800 phone</string>
 
     <string name="incoming_call">Incoming call</string>
-    <string name="missed_call">Ended call</string>
+    <string name="outgoing_call">Outgoing call</string>
+    <string name="ended_call">Ended call</string>
 
     <string name="color_name_white">White</string>
     <string name="color_name_black">Black</string>

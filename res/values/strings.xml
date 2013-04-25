@@ -9,8 +9,8 @@
     <string name="baidu_search">百度该号码</string>
     <string name="hide_web">隐藏Web页面</string>
     <string name="check_search_result">查看搜索结果</string>
-    <string name="app_enabled">程序已启用</string>
-    <string name="app_disabled">程序已停用</string>
+    <string name="app_enabled">启用</string>
+    <string name="app_disabled">未启用</string>
     <string name="select_txt_colr">选择文字颜色</string>
     <string name="input_to_query">输入号码查询归属地</string>
     <string name="input_number">输入号码</string>
@@ -43,7 +43,8 @@
     <string name="author_email">"tony.gao000@gmail.com"</string>
     <string name="app_info">本程序用于在来电时以悬浮窗显示号码归属地。本程序仅对中国大陆地区的座机和移动手机号码的来电有效。</string>
 
-    <string name="config_info">点击以启用/停用本程序。\n启用后，如有来电，则会在悬浮窗中显示归属地信息。</string>
+    <string name="config_info_in">来电时，在悬浮窗中显示归属地</string>
+    <string name="config_info_out">去电时，在悬浮窗中显示归属地</string>
 
     <string name="init_db_wait_msg">正在初始化数据库，请稍等...</string>
     <string name="update_calllogs_wait_msg">正在更新通话记录，请稍等...</string>

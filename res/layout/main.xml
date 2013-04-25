@@ -112,42 +112,51 @@
             android:layout_marginRight="2dp"
             android:onClick="onUpdateCalllogsCheckClicked"
             android:saveEnabled="true"
+            android:soundEffectsEnabled="true"
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical" />
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/about"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
-        android:layout_marginTop="5dp"
-        android:paddingLeft="2dp"
-        android:background="@drawable/bg_black"
-        android:drawableLeft="@drawable/about"
-        android:text="@string/about"
-        android:textColor="@color/white"
-        android:textSize="15sp"
-        android:layout_gravity="center_vertical"
-        android:gravity="center_vertical"
-        android:clickable="true"
-        android:onClick="onAboutClicked" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:gravity="center"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:textSize="13sp"
         android:textColor="@color/white"
-        android:text="@string/config_info" />
+        android:singleLine="true"
+        android:text="@string/config_info_in" />
 
     <ToggleButton
-        android:id="@+id/enable"
+        android:id="@+id/enable_incoming"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/toggle_button_selector"
+        android:textOn="@string/app_enabled"
+        android:textOff="@string/app_disabled"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:textColor="@color/white"
+        android:soundEffectsEnabled="true"
+        android:saveEnabled="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:layout_marginTop="5dp"
+        android:textSize="13sp"
+        android:textColor="@color/white"
+        android:singleLine="true"
+        android:text="@string/config_info_out" />
+
+    <ToggleButton
+        android:id="@+id/enable_outgoing"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/toggle_button_selector"
         android:textOn="@string/app_enabled"
@@ -184,4 +193,23 @@
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/about"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginTop="15dp"
+        android:paddingLeft="2dp"
+        android:background="@drawable/bg_black"
+        android:drawableLeft="@drawable/about"
+        android:text="@string/about"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:clickable="true"
+        android:onClick="onAboutClicked" />
+
 </LinearLayout>

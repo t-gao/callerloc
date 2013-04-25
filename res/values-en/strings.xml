@@ -8,8 +8,8 @@
     <string name="baidu_search">Search this number</string>
     <string name="hide_web">Hide Web page</string>
     <string name="check_search_result">Check search result</string>
-    <string name="app_enabled">App in use</string>
-    <string name="app_disabled">App not in use</string>
+    <string name="app_enabled">On</string>
+    <string name="app_disabled">Off</string>
     <string name="select_txt_colr">Select text color</string>
     <string name="input_to_query">Input a number to query its location</string>
     <string name="input_number">Input a number</string>
@@ -41,7 +41,8 @@
     <string name="email_label">Any question or suggestion, please email:</string>
     <string name="app_info">This application is intended to show the caller location of an incoming call in a floating window. This app works only for the calls from China(Mainland)</string>
 
-    <string name="config_info">Tap to enable/disable this app.\nIf enabled, a floating window will be shown to indicate the caller location when a incoming call comes.</string>
+    <string name="config_info_in">Show location in a floating window for incoming calls</string>
+    <string name="config_info_out">Show location in a floating window for outgoing calls</string>
 
     <string name="init_db_wait_msg">Initializing database...</string>
     <string name="update_calllogs_wait_msg">Updating call logs, please wait...</string>

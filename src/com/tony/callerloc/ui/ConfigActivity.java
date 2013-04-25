@@ -443,7 +443,9 @@ public class ConfigActivity extends BaseActivity {
         @Override
         protected Object doInBackground(Object... params) {
             try {
-                new DatabaseInitializer(getApplicationContext()).initDataBase();
+                DatabaseInitializer dbIniter = new DatabaseInitializer(getApplicationContext());
+                dbIniter.initDataBase();
+                dbIniter.initSpecialNums();
             } catch (IOException e) {
                 Log.e(TAG, "Init database error: ", e);
             }

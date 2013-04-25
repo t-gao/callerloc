@@ -51,7 +51,7 @@ public class CallerlocRetriever {
     private static final String IP_PREFIX = "179";
 
     // special numbers
-    private Hashtable<String, String> mSpecials;
+    private Hashtable<String, String> mSpecials = new Hashtable<String, String>();
 
     private static volatile CallerlocRetriever mInstance = new CallerlocRetriever();
 
@@ -60,48 +60,12 @@ public class CallerlocRetriever {
     }
 
     private CallerlocRetriever() {
-        setUpSpecialNumberLocPairs();
     }
 
-    private void setUpSpecialNumberLocPairs() {
-        mSpecials = new Hashtable<String, String>();
-        mSpecials.put("10000", "电信客服");
-        mSpecials.put("10010", "联通客服");
-        mSpecials.put("10086", "移动客服");
-
-        mSpecials.put("11185", "中国邮政-邮政业务");
-        mSpecials.put("11183", "中国邮政-EMS");
-
-        mSpecials.put("95533", "建设银行客服");
-        mSpecials.put("95566", "中国银行客服");
-        mSpecials.put("95588", "工商银行客服");
-        mSpecials.put("95599", "农业银行客服");
-        mSpecials.put("95555", "招商银行客服");
-        mSpecials.put("95559", "交通银行客服");
-        mSpecials.put("95595", "光大银行客服");
-        mSpecials.put("95558", "中信银行客服");
-        mSpecials.put("95568", "民生银行客服");
-        mSpecials.put("95580", "邮储银行客服");
-        mSpecials.put("95561", "兴业银行客服");
-        mSpecials.put("95577", "华夏银行客服");
-        mSpecials.put("95528", "浦东发展银行客服");
-        mSpecials.put("95501", "深圳发展银行客服");
-        mSpecials.put("95508", "广东发展银行客服");
-
-        mSpecials.put("95518", "人保财险客服");
-        mSpecials.put("95519", "人寿保险客服");
-        mSpecials.put("95500", "太平洋保险客服");
-        mSpecials.put("95511", "平安人寿保险");
-        mSpecials.put("95512", "平安财险客服");
-        mSpecials.put("95567", "新华人寿保险");
-        mSpecials.put("95590", "大地财产保险");
-        mSpecials.put("95509", "华泰财产保险");
-        mSpecials.put("95556", "华安财产保险");
-        mSpecials.put("96677", "安华农业保险");
-
-        mSpecials.put("95598", "中国红十字会");
-
-        mSpecials.put("12315", "消费者投举热线");
+    public void putSpecialNum(String key, String num) {
+        if (key != null && num != null) {
+            mSpecials.put(key, num);
+        }
     }
 
     private String preProcessNum(String number) {

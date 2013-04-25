@@ -1,11 +1,15 @@
 
 package com.tony.callerloc.db;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import com.tony.callerloc.services.CallerlocRetriever;
 
 import android.content.Context;
 import android.content.res.AssetManager;
@@ -14,7 +18,6 @@ import android.util.Log;
 
 /**
  * @author Tony Gao
- *
  */
 public class DatabaseInitializer {
 
@@ -54,7 +57,7 @@ public class DatabaseInitializer {
                 while ((count = is.read(buffer)) > 0) {
                     os.write(buffer, 0, count);
                     os.flush();
-//                    Log.d(TAG, "count: " + count);
+                    // Log.d(TAG, "count: " + count);
                 }
             } catch (IOException e) {
                 Log.e(TAG, "init db", e);
@@ -74,21 +77,33 @@ public class DatabaseInitializer {
         }
     }
 
-//    private class InitDbTask extends AsyncTask<Object, Integer, Boolean> {
+    public void initSpecialNums() {
+        Log.d(TAG, "initSpecialNums called");
+        CallerlocRetriever retriever = CallerlocRetriever.getInstance();
 
-//        @Override
-//        protected Boolean doInBackground(Object... arg0) {
-//            return null;
-//        }
-
-//        @Override
-//        protected void onPostExecute(Boolean result) {
-//            super.onPostExecute(result);
-//        }
-
-//        @Override
-//        protected void onProgressUpdate(Integer... values) {
-//            super.onProgressUpdate(values);
-//        }
-//    }
+        String fileName = "files" + File.separator + "specialNums.txt";
+        InputStream is;
+        BufferedReader br = null;
+        try {
+            is = mAssetManager.open(fileName);
+            br = new BufferedReader(new InputStreamReader(is));
+            String line = null;
+            while ((line = br.readLine()) != null) {
+                String[] arr = line.split(",");
+                retriever.putSpecialNum(arr[0], arr[1]);
+                Log.d(TAG, "put special num: " + line);
+            }
+        } catch (IOException e) {
+            Log.e(TAG, "init special numbers caught: ", e);
+        } finally {
+            try {
+                if (br != null)
+                    br.close();
+            } catch (IOException e) {
+                Log.e(TAG, "init special numbers, tring to close bufferedreader, caught: ", e);
+            }
+            br = null;
+            is = null;
+        }
+    }
 }

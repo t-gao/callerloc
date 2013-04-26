@@ -17,6 +17,10 @@
     <string name="refresh_calllogs_detail">Insert location info to stranger call logs</string>
     <string name="about">About</string>
 
+    <string name="op_mb">China Mobile</string>
+    <string name="op_uc">China Unicom</string>
+    <string name="op_tl">China Telecom</string>
+
     <string name="same_city">Same city</string>
     <string name="city_beijing">Beijing</string>
     <string name="fzz">A 400 phone</string>

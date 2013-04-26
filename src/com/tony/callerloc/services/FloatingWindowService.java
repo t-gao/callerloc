@@ -65,7 +65,7 @@ public class FloatingWindowService extends Service {
 
         DisplayMetrics metrics = getResources().getDisplayMetrics();
         int screenWidth = metrics.widthPixels;
-        wmParams.width = (int) (screenWidth * 0.35);
+        wmParams.width = (int) (screenWidth * 0.40);
         wmParams.height = (int) (wmParams.width * 0.56);
 
         inflateFloatingView();
@@ -203,7 +203,7 @@ public class FloatingWindowService extends Service {
 
                         if (mActionType == CallAnswerService.ACTION_TYPE_END) {
                             // if it's click
-                            if (Math.abs(dx) < 3 && Math.abs(dy) < 3 /* && mFloating != null */) {
+                            if (Math.abs(dx) < 2 && Math.abs(dy) < 2 /* && mFloating != null */) {
                                 //TODO: goto call history page (optional)
                                 stopSelf();
                             }

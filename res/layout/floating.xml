@@ -11,23 +11,26 @@
         android:id="@+id/label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|top"
         android:gravity="center"
-        android:textSize="12sp"
+        android:textSize="13sp"
         android:text=""
         android:singleLine="true" />
     <TextView
         android:id="@+id/number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:gravity="center"
-        android:textSize="12sp"
+        android:textSize="13sp"
         android:singleLine="true" />
     <TextView
         android:id="@+id/loc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom"
         android:gravity="center"
         android:textSize="12sp"
-        android:singleLine="true" />
+        android:maxLines="2" />
 
 </LinearLayout>

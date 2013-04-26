@@ -176,8 +176,12 @@ public class DbHandler {
             }
         }
 
-        if (specialSuffix != null) {
-            loc += ("," + specialSuffix);
+        if (!TextUtils.isEmpty(specialSuffix)) {
+            if (TextUtils.isEmpty(loc)) {
+                loc = specialSuffix;
+            } else {
+                loc += ("," + specialSuffix);
+            }
         }
         return loc;
     }

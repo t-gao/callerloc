@@ -17,6 +17,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.tony.callerloc.R;
 import com.tony.callerloc.db.DbHandler;
 import com.tony.callerloc.ui.BaseActivity;
 
@@ -113,7 +114,12 @@ public class CallerlocRetriever {
         if (type == NUM_TYPE_INVALID) {
             return null;
         }
-        return mDbHandler.queryLoc(number, type);
+
+        String loc = mDbHandler.queryLoc(number, type);
+        if (TextUtils.isEmpty(loc)) {
+            loc = context.getString(R.string.unknown_loc);
+        }
+        return loc;
     }
 
     /**

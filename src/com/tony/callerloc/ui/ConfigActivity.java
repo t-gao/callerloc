@@ -292,9 +292,6 @@ public class ConfigActivity extends BaseActivity {
             CallerlocRetriever retriever = CallerlocRetriever.getInstance();
             if (retriever != null) {
                 mLoc = retriever.retrieveCallerLocFromDb(this, mNumber);
-                if (TextUtils.isEmpty(mLoc)) {
-                    mLoc = getString(R.string.unknown_loc);
-                }
                 showDialog(DIALOG_ALERT_LOC_INFO);
             }
         }

@@ -104,34 +104,49 @@ public class FloatingWindowService extends Service {
     }
 
     private void setTextViews() {
-        if (mActionType == CallAnswerService.ACTION_TYPE_END) {
-            if (mLabelView != null) {
-                mLabelView.setText(R.string.ended_call);
-            }
-        } else {
+        if (mActionType == CallAnswerService.ACTION_TYPE_IN
+                || mActionType == CallAnswerService.ACTION_TYPE_OUT) {
             if (mNumberView != null) {
                 mNumberView.setText(mNumber);
-            }
-
-            if (mLabelView != null) {
-                if (mActionType == CallAnswerService.ACTION_TYPE_IN) {
-                    mLabelView.setText(R.string.incoming_call);
-                } else if (mActionType == CallAnswerService.ACTION_TYPE_OUT) {
-                    mLabelView.setText(R.string.outgoing_call);
-                }
             }
             // if (mLocView != null) {
             // mLocView.setText(mLoc);
             // }
+        }
+
+        if (mLabelView != null) {
+            int labelStrId = getLabelStringIdByAction(mActionType);
+            if (labelStrId > 0) {
+                mLabelView.setText(labelStrId);
+            }
         }
     }
 
     private void getExtraFromIntent(Intent i) {
         mLastNumber = mNumber;
         if (i != null) {
-            mActionType = i.getExtras().getInt(CallAnswerService.EXTRA_ACTION_TYPE, CallAnswerService.ACTION_TYPE_NONE);
+            mActionType = i.getExtras().getInt(CallAnswerService.EXTRA_ACTION_TYPE,
+                    CallAnswerService.ACTION_TYPE_NONE);
             mNumber = i.getExtras().getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
-            mLoc = i.getExtras().getString(CallAnswerService.EXTRA_LOC);
+            if (mNumber == null) {
+                mNumber = mLastNumber;
+            }
+            // mLoc = i.getExtras().getString(CallAnswerService.EXTRA_LOC);
+        }
+    }
+
+    private int getLabelStringIdByAction(int action) {
+        switch (action) {
+            case CallAnswerService.ACTION_TYPE_IN:
+                return R.string.incoming_call;
+            case CallAnswerService.ACTION_TYPE_OUT:
+                return R.string.outgoing_call;
+            case CallAnswerService.ACTION_TYPE_CONNECTED:
+                return R.string.connected_call;
+            case CallAnswerService.ACTION_TYPE_MISSED:
+                return R.string.missed_call;
+            default:
+                return 0;
         }
     }
 
@@ -201,7 +216,7 @@ public class FloatingWindowService extends Service {
                             Log.d(TAG, "action up, dx: , dy: " + dx + " " + dy);
                         }
 
-                        if (mActionType == CallAnswerService.ACTION_TYPE_END) {
+                        if (mActionType == CallAnswerService.ACTION_TYPE_MISSED) {
                             // if it's click
                             if (Math.abs(dx) < 2 && Math.abs(dy) < 2 /* && mFloating != null */) {
                                 //TODO: goto call history page (optional)

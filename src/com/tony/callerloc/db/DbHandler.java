@@ -91,7 +91,7 @@ public class DbHandler {
                 QUERY_FIXEDLINE_LOC_PROJECTION, query_fixedline_selection, args, null, null, null);
     }
 
-    public String queryLoc(String number, int type) {
+    public String queryLoc(String number, int type, boolean withOperator) {
         String loc = null;
         String specialSuffix = null;
         if (type == CallerlocRetriever.NUM_TYPE_INVALID) {
@@ -110,7 +110,7 @@ public class DbHandler {
                     c.close();
                 }
             }
-            if (!TextUtils.isEmpty(loc)) {
+            if (withOperator && !TextUtils.isEmpty(loc)) {
                 String op = getOpratorByPrefix(prefix);
                 if (!TextUtils.isEmpty(op)) {
                     loc += ("\n" + op);

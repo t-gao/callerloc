@@ -30,6 +30,7 @@
     <string name="outgoing_call">Outgoing call</string>
     <string name="connected_call">Connected</string>
     <string name="missed_call">Missed call</string>
+    <string name="ended_call">Ended call</string>
 
     <string name="color_name_white">White</string>
     <string name="color_name_black">Black</string>

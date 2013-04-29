@@ -18,9 +18,9 @@
     <string name="refresh_calllogs_detail">向陌生号码通话记录添加归属地</string>
     <string name="about">关于本程序</string>
 
-    <string name="op_mb">移动</string>
-    <string name="op_uc">联通</string>
-    <string name="op_tl">电信</string>
+    <string name="op_mb">中国移动</string>
+    <string name="op_uc">中国联通</string>
+    <string name="op_tl">中国电信</string>
 
     <string name="same_city">同城</string>
     <string name="city_beijing">北京市</string>
@@ -31,6 +31,7 @@
     <string name="outgoing_call">去电</string>
     <string name="connected_call">通话中</string>
     <string name="missed_call">未接来电</string>
+    <string name="ended_call">已结束</string>
 
     <string name="color_name_white">白色</string>
     <string name="color_name_black">黑色</string>

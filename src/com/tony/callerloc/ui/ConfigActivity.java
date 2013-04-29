@@ -291,7 +291,7 @@ public class ConfigActivity extends BaseActivity {
         if (!TextUtils.isEmpty(mNumber)) {
             CallerlocRetriever retriever = CallerlocRetriever.getInstance();
             if (retriever != null) {
-                mLoc = retriever.retrieveCallerLocFromDb(this, mNumber);
+                mLoc = retriever.retrieveCallerLocFromDb(this, mNumber, true);
                 showDialog(DIALOG_ALERT_LOC_INFO);
             }
         }
@@ -380,14 +380,14 @@ public class ConfigActivity extends BaseActivity {
         ContentValues values = new ContentValues();
         String updatedNumber = null;
         if (insert) {
-            String loc = retriever.retrieveCallerLocFromDb(this, number);
+            String loc = retriever.retrieveCallerLocFromDb(this, number, false);
             if (!TextUtils.isEmpty(loc)) {
                 StringBuilder sb = new StringBuilder();
                 sb.append(loc).append("<").append(number).append(">");
                 updatedNumber = sb.toString();
             }
         } else {
-            updatedNumber = number.substring(number.indexOf("<") + 1, number.indexOf(">"));
+            updatedNumber = number.substring(number.lastIndexOf("<") + 1, number.indexOf(">"));
         }
 
         if (updatedNumber != null) {

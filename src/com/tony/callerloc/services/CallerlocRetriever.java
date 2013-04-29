@@ -100,7 +100,7 @@ public class CallerlocRetriever {
         return type;
     }
 
-    public String retrieveCallerLocFromDb(Context context, String number) {
+    public String retrieveCallerLocFromDb(Context context, String number, boolean withOperator) {
 
         // Log.d(TAG, "retrieveCallerLocFromDb called");
 
@@ -115,7 +115,7 @@ public class CallerlocRetriever {
             return null;
         }
 
-        String loc = mDbHandler.queryLoc(number, type);
+        String loc = mDbHandler.queryLoc(number, type, withOperator);
         if (TextUtils.isEmpty(loc)) {
             loc = context.getString(R.string.unknown_loc);
         }

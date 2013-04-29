@@ -28,6 +28,7 @@ public class CallAnswerService extends IntentService {
     public static final int ACTION_TYPE_OUT = 2;
     public static final int ACTION_TYPE_CONNECTED = 3;
     public static final int ACTION_TYPE_MISSED = 4;
+    public static final int ACTION_TYPE_STOP = 5;
 
     public static final int CUSTOM_CALL_STATE_CALLING = 999;
 
@@ -109,7 +110,9 @@ public class CallAnswerService extends IntentService {
     private void dismissFloatingWindow() {
         Log.d(TAG, "dismissFloatingWindow");
         Intent i = new Intent(getApplicationContext(), FloatingWindowService.class);
-        stopService(i);
+        // stopService(i);
+        i.putExtra(EXTRA_ACTION_TYPE, ACTION_TYPE_STOP);
+        startService(i);
     }
 
     // private void showCoveringActivity() {

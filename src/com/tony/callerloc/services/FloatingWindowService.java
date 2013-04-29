@@ -99,7 +99,22 @@ public class FloatingWindowService extends Service {
             mRetrieveTask = new RetrieveCallerLocTask();
             mRetrieveTask.execute(mNumber);
         }
+
         setTextViews();
+
+        if (mActionType == CallAnswerService.ACTION_TYPE_MISSED
+                || mActionType == CallAnswerService.ACTION_TYPE_STOP) {
+            // Update call log
+            Intent i = new Intent(this, UpdateCallLogService.class);
+            i.putExtra(UpdateCallLogService.EXTRA_NUM, mNumber);
+            i.putExtra(UpdateCallLogService.EXTRA_LOC, mLoc);
+            startService(i);
+
+            if (mActionType == CallAnswerService.ACTION_TYPE_STOP) {
+                stopSelf();
+            }
+        }
+
         return START_STICKY;
     }
 
@@ -127,9 +142,12 @@ public class FloatingWindowService extends Service {
         if (i != null) {
             mActionType = i.getExtras().getInt(CallAnswerService.EXTRA_ACTION_TYPE,
                     CallAnswerService.ACTION_TYPE_NONE);
-            mNumber = i.getExtras().getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
-            if (mNumber == null) {
-                mNumber = mLastNumber;
+            if (mActionType == CallAnswerService.ACTION_TYPE_IN
+                    || mActionType == CallAnswerService.ACTION_TYPE_OUT) {
+                mNumber = i.getExtras().getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
+                if (mNumber == null) {
+                    mNumber = mLastNumber;
+                }
             }
             // mLoc = i.getExtras().getString(CallAnswerService.EXTRA_LOC);
         }
@@ -145,6 +163,8 @@ public class FloatingWindowService extends Service {
                 return R.string.connected_call;
             case CallAnswerService.ACTION_TYPE_MISSED:
                 return R.string.missed_call;
+            case CallAnswerService.ACTION_TYPE_STOP:
+                return R.string.ended_call;
             default:
                 return 0;
         }
@@ -238,7 +258,7 @@ public class FloatingWindowService extends Service {
             String loc = "";
             CallerlocRetriever retriever = CallerlocRetriever.getInstance();
             if (retriever != null) {
-                loc = retriever.retrieveCallerLocFromDb(FloatingWindowService.this, params[0]);
+                loc = retriever.retrieveCallerLocFromDb(FloatingWindowService.this, params[0], true);
             }
             return loc;
         }

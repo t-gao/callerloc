@@ -3,6 +3,7 @@ package com.tony.callerloc.services;
 
 import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.telephony.TelephonyManager;
@@ -23,7 +24,6 @@ import com.tony.callerloc.ui.BaseActivity;
 
 /**
  * @author Tony Gao
- *
  */
 public class FloatingWindowService extends Service {
 
@@ -104,11 +104,18 @@ public class FloatingWindowService extends Service {
 
         if (mActionType == CallAnswerService.ACTION_TYPE_MISSED
                 || mActionType == CallAnswerService.ACTION_TYPE_STOP) {
-            // Update call log
-            Intent i = new Intent(this, UpdateCallLogService.class);
-            i.putExtra(UpdateCallLogService.EXTRA_NUM, mNumber);
-            i.putExtra(UpdateCallLogService.EXTRA_LOC, mLoc);
-            startService(i);
+
+            SharedPreferences prefs = getSharedPreferences(BaseActivity.PREFERENCES_NAME,
+                    MODE_PRIVATE);
+            boolean updateCallLogEnabled = prefs.getBoolean(
+                    BaseActivity.PREFERENCES_KEY_UPDATE_CALL_LOG_ENABLED, false);
+            if (updateCallLogEnabled) {
+                // Update call log
+                Intent i = new Intent(this, UpdateCallLogService.class);
+                i.putExtra(UpdateCallLogService.EXTRA_NUM, mNumber);
+                i.putExtra(UpdateCallLogService.EXTRA_LOC, mLoc);
+                startService(i);
+            }
 
             if (mActionType == CallAnswerService.ACTION_TYPE_STOP) {
                 stopSelf();
@@ -238,8 +245,12 @@ public class FloatingWindowService extends Service {
 
                         if (mActionType == CallAnswerService.ACTION_TYPE_MISSED) {
                             // if it's click
-                            if (Math.abs(dx) < 2 && Math.abs(dy) < 2 /* && mFloating != null */) {
-                                //TODO: goto call history page (optional)
+                            if (Math.abs(dx) < 2 && Math.abs(dy) < 2 /*
+                                                                      * &&
+                                                                      * mFloating
+                                                                      * != null
+                                                                      */) {
+                                // TODO: goto call history page (optional)
                                 stopSelf();
                             }
                         }
@@ -258,7 +269,8 @@ public class FloatingWindowService extends Service {
             String loc = "";
             CallerlocRetriever retriever = CallerlocRetriever.getInstance();
             if (retriever != null) {
-                loc = retriever.retrieveCallerLocFromDb(FloatingWindowService.this, params[0], true);
+                loc = retriever
+                        .retrieveCallerLocFromDb(FloatingWindowService.this, params[0], true);
             }
             return loc;
         }

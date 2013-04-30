@@ -51,7 +51,7 @@
     <string name="config_info_in">Show location in a floating window for incoming calls</string>
     <string name="config_info_out">Show location in a floating window for outgoing calls</string>
 
-    <string name="init_db_wait_msg">Initializing database...</string>
+    <string name="init_db_wait_msg">Initializing database, this may take up to a few minutes...</string>
     <string name="update_calllogs_wait_msg">Updating call logs, please wait...</string>
 
     <plurals name="number_of_calllogs_updated">

@@ -47,32 +47,6 @@ public class DbHandler {
         }
     }
 
-    public int bulkInsertValues(ContentValues[] valuesArr) {
-        if (BaseActivity.LOG_ENABLED) {
-            Log.d(TAG, "bulkInsertValues called!");
-        }
-
-        int count = -1;
-
-        if (valuesArr != null && valuesArr.length > 0) {
-            count++;
-            final SQLiteDatabase db = mDbHelper.getWritableDatabase();
-
-            for (ContentValues values : valuesArr) {
-                if (0 < db.insert(Constants.CallerLoc.TABLE_CALLERLOC, Constants.CallerLoc.LOC,
-                        values)) {
-                    count++;
-                }
-            }
-        }
-
-        if (BaseActivity.LOG_ENABLED) {
-            Log.d(TAG, "bulkInsertValues returning " + count);
-        }
-
-        return count;
-    }
-
     private Cursor queryMobile(int prefix, int mid) {
         final SQLiteDatabase db = mDbHelper.getReadableDatabase();
         String[] args = {

@@ -53,7 +53,7 @@
     <string name="config_info_in">来电时，在悬浮窗中显示归属地</string>
     <string name="config_info_out">去电时，在悬浮窗中显示归属地</string>
 
-    <string name="init_db_wait_msg">正在初始化数据库，请稍等...</string>
+    <string name="init_db_wait_msg">首次启动，正在初始化数据库，可能需要几分钟，请稍等...</string>
     <string name="update_calllogs_wait_msg">正在更新通话记录，请稍等...</string>
 
     <plurals name="number_of_calllogs_updated">

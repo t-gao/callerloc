@@ -6,8 +6,8 @@
 5. (NEW FEATURE)fixed-line telephone incoming call -- DONE
 6. (NEW FEATURE)on click the missed call floating window,
      1) go to call history (optional) (DROP THIS FEATURE)
-     2) update the calllog item (insert loc info to it if it's a stranger call)
-7. (NEW FEATURE)add location info to calllogs -- HALF DONE(See above)
+     2) update the calllog item (insert loc info to it if it's a stranger call) -- DONE
+7. (NEW FEATURE)add location info to calllogs -- DONE
 8. modify config activity UI to :
     1) support input number and query location -- DONE
     2) add a progress bar while initialing database -- DONE

@@ -13,6 +13,7 @@ import com.tony.callerloc.services.CallerlocRetriever;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 import android.util.Log;
 
@@ -34,6 +35,11 @@ public class DatabaseInitializer {
     }
 
     public void initDataBase() throws IOException {
+        combineDatabases();
+        createIndexes();
+    }
+
+    private void combineDatabases() throws IOException {
         Log.d(TAG, "initDataBase called");
         String dbName = DATABASE_PATH + File.separator + "callerloc.db";
         File dir = new File(DATABASE_PATH);
@@ -75,6 +81,42 @@ public class DatabaseInitializer {
         } catch (IOException e) {
             Log.e(TAG, "init db", e);
         }
+    }
+
+    private void createIndexes() {
+        Log.d(TAG, "createIndexes called");
+
+        DbHelper dbHelper = new DbHelper(mContext);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        if (db != null) {
+            try {
+                db.execSQL("CREATE INDEX IF NOT EXISTS index_callerlocs_prefix ON "
+                        + Constants.CallerLoc.TABLE_CALLERLOC
+                        + "(" + Constants.CallerLoc.PREFIX
+                        + " ASC)");
+
+                db.execSQL("CREATE INDEX IF NOT EXISTS index_callerlocs_mid ON "
+                        + Constants.CallerLoc.TABLE_CALLERLOC
+                        + "(" + Constants.CallerLoc.MID
+                        + " ASC)");
+
+                db.execSQL("CREATE INDEX IF NOT EXISTS index_fixedline_areacode ON "
+                        + Constants.FixedlineAreaCode.TABLE_FIXEDLINE + "("
+                        + Constants.FixedlineAreaCode.AREA_CODE + " ASC)");
+            } catch (Exception e) {
+                Log.e(TAG, "create indexes caught: ", e);
+            } finally {
+                try {
+                    db.close();
+                } catch (Exception e) {
+                    Log.e(TAG, "create indexes, close db caught: ", e);
+                }
+            }
+        } else {
+            Log.d(TAG, "create indexes, get db is null");
+        }
+
     }
 
     public void initSpecialNums() {

@@ -66,7 +66,7 @@ public class FloatingWindowService extends Service {
         DisplayMetrics metrics = getResources().getDisplayMetrics();
         int screenWidth = metrics.widthPixels;
         wmParams.width = (int) (screenWidth * 0.40);
-        wmParams.height = (int) (wmParams.width * 0.56);
+        wmParams.height = (int) (wmParams.width * 0.58);
 
         inflateFloatingView();
 
@@ -113,7 +113,14 @@ public class FloatingWindowService extends Service {
                 // Update call log
                 Intent i = new Intent(this, UpdateCallLogService.class);
                 i.putExtra(UpdateCallLogService.EXTRA_NUM, mNumber);
-                i.putExtra(UpdateCallLogService.EXTRA_LOC, mLoc);
+
+                String loc = mLoc;
+                // remove operator info
+                int newLineIdx = loc.indexOf("\n");
+                if (newLineIdx > 0 && newLineIdx < loc.length()) {
+                    loc = loc.substring(0, newLineIdx);
+                }
+                i.putExtra(UpdateCallLogService.EXTRA_LOC, loc);
                 startService(i);
             }
 

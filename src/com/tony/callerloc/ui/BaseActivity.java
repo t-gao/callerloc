@@ -13,7 +13,7 @@ import com.tony.callerloc.R;
  */
 public class BaseActivity extends Activity {
 
-    public static final boolean LOG_ENABLED = true;
+    public static final boolean LOG_ENABLED = false;
 
     public static final String PREFERENCES_NAME = "com.tony.callerloc";
     public static final String PREFERENCES_KEY_INCOMING_ENABLED = "key_in";

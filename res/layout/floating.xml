@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@color/half_white"
+    android:background="@drawable/float_background"
     android:gravity="center"
     android:visibility="visible"
     android:orientation="vertical" >
@@ -13,7 +13,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|top"
         android:gravity="center"
+        android:background="@color/floating"
         android:textSize="13sp"
+        android:layout_marginTop="1dp"
         android:text=""
         android:singleLine="true" />
     <TextView
@@ -22,6 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
+        android:background="@color/floating"
         android:textSize="13sp"
         android:singleLine="true" />
     <TextView
@@ -30,7 +33,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|bottom"
         android:gravity="center"
-        android:textSize="12sp"
+        android:layout_marginBottom="1dp"
+        android:background="@color/floating"
+        android:textSize="13sp"
         android:maxLines="2" />
 
 </LinearLayout>

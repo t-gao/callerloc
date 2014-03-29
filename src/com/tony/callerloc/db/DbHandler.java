@@ -3,9 +3,9 @@ package com.tony.callerloc.db;
 
 import com.tony.callerloc.services.CallerlocRetriever;
 import com.tony.callerloc.ui.BaseActivity;
+import com.tony.callerloc.utils.EncryptUtil;
 
 import com.tony.callerloc.R;
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -50,7 +50,8 @@ public class DbHandler {
     private Cursor queryMobile(int prefix, int mid) {
         final SQLiteDatabase db = mDbHelper.getReadableDatabase();
         String[] args = {
-                String.valueOf(prefix), String.valueOf(mid)
+                String.valueOf(EncryptUtil.encryptPrefix(prefix)),
+                String.valueOf(EncryptUtil.encryptMid(mid))
         };
         return db.query(Constants.CallerLoc.TABLE_CALLERLOC, QUERY_MOBILE_LOC_PROJECTION,
                 query_mobile_selection, args, null, null, null);

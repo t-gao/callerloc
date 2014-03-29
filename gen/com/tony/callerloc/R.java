@@ -21,6 +21,7 @@ public final class R {
         public static final int bright_yellow=0x7f05000b;
         public static final int brown=0x7f050008;
         public static final int deep_blue=0x7f050009;
+        public static final int floating=0x7f05000d;
         public static final int grass_green=0x7f050005;
         public static final int grey=0x7f050003;
         public static final int half_white=0x7f05000c;
@@ -34,15 +35,16 @@ public final class R {
         public static final int about=0x7f020000;
         public static final int bg_black=0x7f020001;
         public static final int button=0x7f020002;
-        public static final int goto_handle=0x7f020003;
-        public static final int green_bg=0x7f020004;
-        public static final int ic_call=0x7f020005;
-        public static final int ic_launcher=0x7f020006;
-        public static final int input_box=0x7f020007;
-        public static final int refresh_calllogs=0x7f020008;
-        public static final int search=0x7f020009;
-        public static final int toggle_button_selector=0x7f02000a;
-        public static final int transparent=0x7f02000b;
+        public static final int float_background=0x7f020003;
+        public static final int goto_handle=0x7f020004;
+        public static final int green_bg=0x7f020005;
+        public static final int ic_call=0x7f020006;
+        public static final int ic_launcher=0x7f020007;
+        public static final int input_box=0x7f020008;
+        public static final int refresh_calllogs=0x7f020009;
+        public static final int search=0x7f02000a;
+        public static final int toggle_button_selector=0x7f02000b;
+        public static final int transparent=0x7f02000c;
     }
     public static final class id {
         public static final int about=0x7f090016;

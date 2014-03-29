@@ -54,11 +54,6 @@ public class UpdateCallLogService extends Service {
             String loc = intent.getStringExtra(EXTRA_LOC);
             Log.d(TAG, "onStartCommand, num: " + num + ", loc: " + loc);
             if (!TextUtils.isEmpty(loc)) {
-                // remove operator info
-                int newLineIdx = loc.indexOf('\n');
-                if (newLineIdx > 0 && newLineIdx < loc.length()) {
-                    loc = loc.substring(0, newLineIdx);
-                }
                 Message msg = aHandler.obtainMessage(MSG_UPDATE_CALL_LOG);
                 Bundle data = intent.getExtras();
                 if (data != null) {
@@ -103,6 +98,18 @@ public class UpdateCallLogService extends Service {
         if (TextUtils.isEmpty(num)) {
             return 0;
         }
+
+//        String mobile = getString(R.string.op_mb);
+//        String unicom = getString(R.string.op_uc);
+//        String telecom = getString(R.string.op_tl);
+//        String[] operators = new String[]{mobile, unicom, telecom};
+//        for (String operator : operators) {
+            if (num.indexOf(',') > 0) {
+                Log.d(TAG, "contains op");
+                num = num.substring(0, num.indexOf(',') - 1);
+//                break;
+            }
+//        }
 
         ContentResolver cr = getContentResolver();
         int id = 0;

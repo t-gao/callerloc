@@ -35,8 +35,13 @@ public class DatabaseInitializer {
     }
 
     public void initDataBase() throws IOException {
+        deleteIfExists();
         combineDatabases();
         createIndexes();
+    }
+
+    private void deleteIfExists() {
+        
     }
 
     private void combineDatabases() throws IOException {

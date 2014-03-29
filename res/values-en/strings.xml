@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">My Callerloc App</string>
+    <string name="app_name">TN Number Location</string>
+    <string name="button_baidu">Suspicious number? Baidu it</string>
     <string name="callerloc">Number Location:</string>
     <string name="unknown_loc">Location unknown</string>
     <string name="goto_handle">Answer/Decline</string>
@@ -27,7 +28,7 @@
     <string name="ezz">An 800 phone</string>
 
     <string name="incoming_call">Incoming call</string>
-    <string name="outgoing_call">Outgoing call</string>
+    <string name="outgoing_call">Calling</string>
     <string name="connected_call">Connected</string>
     <string name="missed_call">Missed call</string>
     <string name="ended_call">Ended call</string>
@@ -46,7 +47,8 @@
     <string name="color_name_bright_yellow">Bright yellow</string>
 
     <string name="email_label">Any question or suggestion, please email:</string>
-    <string name="app_info">This application is intended to show the caller location of an incoming call in a floating window. This app works only for the calls from China(Mainland)</string>
+    <string name="author_email">"tony.gao000@gmail.com"</string>
+    <string name="app_info">This application is to show the location of the phone number for incoming or outgoing calls in a floating window, it can also insert location info into call logs. This app works only for the numbers from Mainland China.</string>
 
     <string name="config_info_in">Show location in a floating window for incoming calls</string>
     <string name="config_info_out">Show location in a floating window for outgoing calls</string>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">我的来电应用</string>
+    <string name="app_name">TN号码归属地</string>
     <string name="callerloc">号码归属地:</string>
     <string name="button_baidu">号码可疑？点击查看百度搜索结果</string>
     <string name="unknown_loc">未查到归属地</string>
@@ -28,7 +28,7 @@
     <string name="ezz">800电话</string>
 
     <string name="incoming_call">来电</string>
-    <string name="outgoing_call">去电</string>
+    <string name="outgoing_call">呼叫</string>
     <string name="connected_call">通话中</string>
     <string name="missed_call">未接来电</string>
     <string name="ended_call">已结束</string>
@@ -48,7 +48,7 @@
 
     <string name="email_label">任何疑问或建议，欢迎联系：</string>
     <string name="author_email">"tony.gao000@gmail.com"</string>
-    <string name="app_info">本程序用于在来电时以悬浮窗显示号码归属地。本程序仅对中国大陆地区的座机和移动手机号码的来电有效。</string>
+    <string name="app_info">本程序以悬浮窗显示来电或去电号码的归属地，也可向通话记录中添加归属地信息。本程序仅对中国大陆地区的号码有效。</string>
 
     <string name="config_info_in">来电时，在悬浮窗中显示归属地</string>
     <string name="config_info_out">去电时，在悬浮窗中显示归属地</string>

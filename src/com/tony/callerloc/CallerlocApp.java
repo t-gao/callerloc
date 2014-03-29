@@ -19,6 +19,7 @@ public class CallerlocApp extends Application {
 
     private int mTextColorId;
     private int mCurrentCallState = -1;
+    private long mRingStartTime = 0l;
 
     @Override
     public void onCreate() {
@@ -94,5 +95,13 @@ public class CallerlocApp extends Application {
 
     public synchronized void setCurrentCallState(int currentCallState) {
         mCurrentCallState = currentCallState;
+    }
+
+    public synchronized long getRingStartTime() {
+        return mRingStartTime;
+    }
+
+    public synchronized void setRingStartTime(long ringStartTime) {
+        mRingStartTime = ringStartTime;
     }
 }

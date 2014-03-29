@@ -22,6 +22,7 @@ public class CallAnswerService extends IntentService {
     public static final String EXTRA_LOC = "extra_loc";
     public static final String EXTRA_ACTION_TYPE = "extra_action_type";
     public static final String EXTRA_CALL_STATE = "extra_call_state";
+    public static final String EXTRA_RING_TIME = "extra_ring_time";
 
     public static final int ACTION_TYPE_NONE = 0;
     public static final int ACTION_TYPE_IN = 1;
@@ -64,7 +65,8 @@ public class CallAnswerService extends IntentService {
         CallerlocApp app = (CallerlocApp) getApplication();
 
         if (callState == CUSTOM_CALL_STATE_CALLING) {
-            showFloatingWindow(ACTION_TYPE_OUT, number);
+            showFloatingWindow(ACTION_TYPE_OUT, number, 0);
+            app.setRingStartTime(0l);
         } else {
             int cachedState = app.getCurrentCallState();
             if (BaseActivity.LOG_ENABLED) {
@@ -73,22 +75,31 @@ public class CallAnswerService extends IntentService {
             }
 
             if (callState == TelephonyManager.CALL_STATE_RINGING) {
-                showFloatingWindow(ACTION_TYPE_IN, number);
+                app.setRingStartTime(System.currentTimeMillis());
+                showFloatingWindow(ACTION_TYPE_IN, number, 0);
             } else if (callState == TelephonyManager.CALL_STATE_OFFHOOK) {
+                app.setRingStartTime(0l);
                 // answered and connected
                 if (cachedState == TelephonyManager.CALL_STATE_RINGING
                         //TODO: Can't know if the an outgoing call is answered
                         //for now, see the comment in CallReceiver.
                         /*|| cachedState == CUSTOM_CALL_STATE_CALLING*/) {
-                    showFloatingWindow(ACTION_TYPE_CONNECTED, null);
+                    showFloatingWindow(ACTION_TYPE_CONNECTED, null, 0);
                 } else {
                     // return to not cache the state
                     return;
                 }
             } else if (callState == TelephonyManager.CALL_STATE_IDLE) {
                 if (cachedState == TelephonyManager.CALL_STATE_RINGING) {
-                    showFloatingWindow(ACTION_TYPE_MISSED, null);
+                    long ringStartTime = app.getRingStartTime();
+                    float rangSecs = 0f;
+                    if (ringStartTime > 0) {
+                        rangSecs = (System.currentTimeMillis() - ringStartTime) / 1000f;
+                    }
+                    app.setRingStartTime(0l);
+                    showFloatingWindow(ACTION_TYPE_MISSED, null, rangSecs);
                 } else {
+                    app.setRingStartTime(0l);
                     dismissFloatingWindow();
                 }
             }
@@ -97,12 +108,15 @@ public class CallAnswerService extends IntentService {
         app.setCurrentCallState(callState);
     }
 
-    private void showFloatingWindow(int actionType, String number) {
+    private void showFloatingWindow(int actionType, String number, float rangSecs) {
         Log.d(TAG, "showFloatingWindow");
         Intent i = new Intent(getApplicationContext(), FloatingWindowService.class);
         i.putExtra(EXTRA_ACTION_TYPE, actionType);
         if (!TextUtils.isEmpty(number)) {
             i.putExtra(TelephonyManager.EXTRA_INCOMING_NUMBER, number);
+        }
+        if (rangSecs > 0) {
+            i.putExtra(EXTRA_RING_TIME, rangSecs);
         }
         startService(i);
     }

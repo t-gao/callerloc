@@ -41,6 +41,7 @@ public class FloatingWindowService extends Service {
     private TextView mLabelView;
     private TextView mNumberView;
     private TextView mLocView;
+    private TextView mRingTimeLengthView;
 
     private RetrieveCallerLocTask mRetrieveTask;
 
@@ -65,8 +66,8 @@ public class FloatingWindowService extends Service {
 
         DisplayMetrics metrics = getResources().getDisplayMetrics();
         int screenWidth = metrics.widthPixels;
-        wmParams.width = (int) (screenWidth * 0.40);
-        wmParams.height = (int) (wmParams.width * 0.58);
+        wmParams.width = (int) (screenWidth * 0.45);
+        wmParams.height = (int) (wmParams.width * 0.66);
 
         inflateFloatingView();
 
@@ -124,7 +125,13 @@ public class FloatingWindowService extends Service {
                 startService(i);
             }
 
-            if (mActionType == CallAnswerService.ACTION_TYPE_STOP) {
+            if (mActionType == CallAnswerService.ACTION_TYPE_MISSED) {
+                float rangSecs = intent.getFloatExtra(CallAnswerService.EXTRA_RING_TIME, 0f);
+                if (mRingTimeLengthView != null && rangSecs > 0) {
+                    mRingTimeLengthView.setVisibility(View.VISIBLE);
+                    mRingTimeLengthView.setText(getString(R.string.rang_time, rangSecs));
+                }
+            } else if (mActionType == CallAnswerService.ACTION_TYPE_STOP) {
                 stopSelf();
             }
         }
@@ -133,6 +140,10 @@ public class FloatingWindowService extends Service {
     }
 
     private void setTextViews() {
+        if (mRingTimeLengthView != null) {
+            mRingTimeLengthView.setVisibility(View.GONE);
+        }
+
         if (mActionType == CallAnswerService.ACTION_TYPE_IN
                 || mActionType == CallAnswerService.ACTION_TYPE_OUT) {
             if (mNumberView != null) {
@@ -205,6 +216,7 @@ public class FloatingWindowService extends Service {
         mLabelView = (TextView) mFloating.findViewById(R.id.label);
         mNumberView = (TextView) mFloating.findViewById(R.id.number);
         mLocView = (TextView) mFloating.findViewById(R.id.loc);
+        mRingTimeLengthView = (TextView) mFloating.findViewById(R.id.ring_time_length);
         CallerlocApp app = (CallerlocApp) getApplication();
         int textColor = app.getTextColorId();
         mLabelView.setTextColor(textColor);

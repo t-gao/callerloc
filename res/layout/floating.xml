@@ -31,11 +31,22 @@
         android:id="@+id/loc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|bottom"
+        android:layout_gravity="center_horizontal"
         android:gravity="center"
-        android:layout_marginBottom="1dp"
         android:background="@color/floating"
         android:textSize="13sp"
         android:maxLines="2" />
+    <TextView
+        android:id="@+id/ring_time_length"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom"
+        android:gravity="center"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="1dp"
+        android:background="@color/floating"
+        android:textSize="13sp"
+        android:visibility="gone"
+        android:maxLines="1" />
 
 </LinearLayout>

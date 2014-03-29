@@ -32,6 +32,7 @@
     <string name="connected_call">通话中</string>
     <string name="missed_call">未接来电</string>
     <string name="ended_call">已结束</string>
+    <string name="rang_time">共响铃 %f秒</string>
 
     <string name="color_name_white">白色</string>
     <string name="color_name_black">黑色</string>

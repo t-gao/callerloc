@@ -9,7 +9,7 @@
     <string name="baidu_search">百度该号码</string>
     <string name="hide_web">隐藏Web页面</string>
     <string name="check_search_result">查看搜索结果</string>
-    <string name="app_enabled">启用</string>
+    <string name="app_enabled">已启用</string>
     <string name="app_disabled">未启用</string>
     <string name="select_txt_colr">选择文字颜色</string>
     <string name="input_to_query">输入号码查询归属地</string>

@@ -222,6 +222,7 @@ public class FloatingWindowService extends Service {
         mLabelView.setTextColor(textColor);
         mNumberView.setTextColor(textColor);
         mLocView.setTextColor(textColor);
+        mRingTimeLengthView.setTextColor(textColor);
 
         mFloating.setOnTouchListener(new OnTouchListener() {
 

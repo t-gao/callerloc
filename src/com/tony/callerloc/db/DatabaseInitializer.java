@@ -58,8 +58,12 @@ public class DatabaseInitializer {
             Log.e(TAG, "init db", e);
         }
         String[] fileNames = mAssetManager.list("dbs");
-        for (int i = 1; i <= fileNames.length; i++) {
+        int length = fileNames.length;
+        for (int i = 1; i <= length; i++) {
             String fileName = "dbs" + File.separator + "callerloc" + i + ".db";
+            if (length == 1) {
+                fileName = "dbs" + File.separator + "callerloc.db";
+            }
             Log.d(TAG, "opening file: " + fileName);
             InputStream is = mAssetManager.open(fileName);
             byte[] buffer = new byte[1024];
